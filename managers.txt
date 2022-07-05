@@ -1,0 +1,2 @@
+RG: a Nome: a Data de nascimento: 1-1-1950 Data de admissao: 1-1-1951 Salario: 1.0 Anos de experiencia: 1
+RG: b Nome: b Data de nascimento: 2-2-2000 Data de admissao: 2-2-2020 Salario: 2.0 Anos de experiencia: 2
