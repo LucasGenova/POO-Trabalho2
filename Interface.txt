@@ -1,0 +1,51 @@
+App inicial
+- Recebe o id do funcionario e ve se é gerente ou vendedor
+
+App Vendedor
+- Printar informações sobre Veiculos
+- Printar informações sobre Clientes
+- Printar informações sobre Vendas
+- Acessa menu Vendas
+
++ Cadastrar Vendas
++ Alterar Vendas
++ Excluir Vendas
++ Sair do menu
+
+- Sair do App
+
+App Gerente
+- Printa desempenho dos vendedores
+- Acessa menu Clientes
+
++ Cadastrar Cliente - Arquivo
++ Alterar Cliente - Arquivo
+
+* Alterar CPF, Alterar Nome, Alterar Data de nascimento, Alterar endereço, Alterar quanto ele recebe, alterar dependentes
+
++ Excluir Cliente - Arquivo
++ Sair do menu Cliente
+
+- Acessa menu Veiculos
+
++ Cadastrar Veiculos - Arquivo
++ Alterar Veiculos - Arquivo
+
+* Alterar numero do chassi, marca, modelo, ano, quilometragem, peso, status
+* Ver se é carro (Alterar cavalo, cilindros, assentos, tipo, dimensões) ou moto (Alterar capacidade do motor, tipo)
++ Excluir Veiculos - Arquivo
++ Sair do menu Veiculos
+
+- Acessa menu funcionarios
+
++ Cadastrar Funcionários - Arquivo
+
+* Pergunta se é Gerente ou Vendedor, se for Gerente cadastra de 1 jeito, se for Vendedor cadastra de outro
+
++ Alterar Funcionários - Arquivo
+
+* Alterar rg, nome, data de aniversário, data de admissão e salário
+* Pergunta se é Gerente (Alterar anos de experiência) ou Vendedor (Alterar tempo restante de treinamento, Gerente responsável)
+
++ Excluir Funcionários - Arquivo
++ Sair do menu Funcionarios
