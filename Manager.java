@@ -9,12 +9,13 @@ public class Manager extends Employee {
 		this.yearsOfExperience = yearsOfExperience;
 	}
 
-    public Manager(String rg, String name, Date birthdate, Date admissionDate, double salary, int yearsOfExperience) {
-        super(rg, name, birthdate, admissionDate, salary);
+	public Manager(String rg, String name, Date birthdate, Date admissiondate, double salary, String password,
+            int yearsOfExperience) {
+        super(rg, name, birthdate, admissiondate, salary, password);
         this.yearsOfExperience = yearsOfExperience;
     }
 
-	public String show(){
+    public String show(){
 		return (super.show() + " Anos de experiencia: " + this.yearsOfExperience);
 	}
 }

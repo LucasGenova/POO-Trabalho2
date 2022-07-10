@@ -18,14 +18,15 @@ public class Seller extends Employee {
 		this.remainingTrainingTime = remainingTrainingTime;
 	}
 
-    public Seller(String rg, String name, Date birthdate, Date admissionDate, double salary, double remainingTrainingTime, Manager responsibleManager) {
-        super(rg, name, birthdate, admissionDate, salary);
-        this.remainingTrainingTime = remainingTrainingTime;
-        this.responsibleManager = responsibleManager;
-    }
+    public Seller(String rg, String name, Date birthdate, Date admissiondate, double salary, String password,
+			double remainingTrainingTime, Manager responsibleManager) {
+		super(rg, name, birthdate, admissiondate, salary, password);
+		this.remainingTrainingTime = remainingTrainingTime;
+		this.responsibleManager = responsibleManager;
+	}
 
-    public Seller() {
-        this("", "", null, null, 0, 0, null);
+	public Seller() {
+        this("", "", null, null, 0, null, 0, null);
     }
 
 	public String show() {
