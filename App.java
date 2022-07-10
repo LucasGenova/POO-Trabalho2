@@ -12,14 +12,13 @@ public class App {
     private static ArrayList<Motorcycle> motorcycles = new ArrayList<>();
     private static ArrayList<Sale> sales = new ArrayList<>();
 
-
     public static void main(String[] args) {
         Manager m1 = new Manager("a", "a", new Date(1, 1, 1950), new Date(1, 1, 1951), 1, "244466666", 1);
         Manager m2 = new Manager("b", "b", new Date(2, 2, 2000), new Date(2, 2, 2020), 2, "password1", 2);
 
         managers.add(m1);
         managers.add(m2);
-        
+
         saveManagers();
 
         md.init();
@@ -57,6 +56,16 @@ public class App {
                 return true;
             }
         }
+
+        for(Seller seller : sellers){
+            if(seller.getName().equals(credentials[0]) && seller.getPassword().equals(credentials[1])){
+                //logged sucessfully
+                loggedAs = seller;
+
+                return true;
+            }
+        }
+
         return false;
     }
 }

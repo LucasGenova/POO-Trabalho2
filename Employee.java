@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public abstract class Employee {
     protected String rg;
 	protected String name;
@@ -5,6 +7,7 @@ public abstract class Employee {
 	protected Date admissiondate;
 	protected double salary;
 	protected String password;
+	protected ArrayList<Sale> sales = new ArrayList<>();
 
     public String getName() {
         return name;
