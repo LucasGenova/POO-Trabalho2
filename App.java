@@ -29,6 +29,11 @@ public class App {
             }           
         } 
         md.display("Logado como " + loggedAs.getName() + "!");
+
+        if(loggedAs instanceof Manager)
+            managerMenu();
+        else
+            sellerMenu();
     }
 
     public static void saveManagers(){
@@ -67,5 +72,28 @@ public class App {
         }
 
         return false;
+    }
+
+    public static void managerMenu(){
+        int op;
+        
+        op = md.optionMenu(new String[]{
+            "Mostrar Veiculos",
+            "Mostrar Clientes",
+            "Mostrar Vendas",
+            "Nova venda"
+            //ToDo: add manager especific options
+        });
+    }
+
+    public static void sellerMenu(){
+        int op;
+
+        op = md.optionMenu(new String[]{
+            "Mostrar Veiculos",
+            "Mostrar Clientes",
+            "Mostrar Vendas",
+            "Nova venda"
+        });
     }
 }
