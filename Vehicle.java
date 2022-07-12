@@ -1,5 +1,5 @@
 public abstract class Vehicle {
-    int chassiNumber;
+    String chassiNumber;
     String brand;
     String model;
     int year;
@@ -7,7 +7,7 @@ public abstract class Vehicle {
     double weight;
     String status;
 
-    public Vehicle(int chassiNumber, String brand, String model, int year, double mileageKm, double weight, String status) {
+    public Vehicle(String chassiNumber, String brand, String model, int year, double mileageKm, double weight, String status) {
         this.chassiNumber = chassiNumber;
         this.brand = brand;
         this.model = model;
@@ -18,14 +18,14 @@ public abstract class Vehicle {
     }
 
     public Vehicle() {
-        this(0, "", "", 0, 0.0, 0.0, "");
+        this("", "", "", 0, 0.0, 0.0, "");
     }
 
-    public int getChassiNumber() {
+    public String getChassiNumber() {
         return chassiNumber;
     }
 
-    public void setChassiNumber(int chassiNumber) {
+    public void setChassiNumber(String chassiNumber) {
         this.chassiNumber = chassiNumber;
     }
 
