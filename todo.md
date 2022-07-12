@@ -1,0 +1,3 @@
+- Save data on files: decide how it will be done; How are lists of objects going to be saved? Are objects associated to numbers by default?
+- Add validation for Date and Time classes: The validations should throw exceptions, that would be treated everywhere in the code... but thats boring. Maybe we should just print in the console and wait for another input.. but that's not going to work when using the graphical interface... 
+- A way to represent the menus in code: there can't be arrays of methods... add big switch-cases? Add a menu class? 

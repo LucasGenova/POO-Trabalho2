@@ -1,9 +1,13 @@
+import java.util.ArrayList;
+
 public abstract class Employee {
     protected String rg;
 	protected String name;
     protected Date birthdate;
 	protected Date admissiondate;
 	protected double salary;
+	protected String password;
+	protected ArrayList<Sale> sales = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -39,15 +43,24 @@ public abstract class Employee {
 		this.rg = rg;
 	}
 
-	public Employee(String rg, String name, Date birthdate, Date admissionDate, double salary) {
-		this.rg = rg;
-		this.name = name;
-		this.birthdate = birthdate;
-		this.admissiondate = admissionDate;
-		this.salary = salary;
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	public String show() {
+	public Employee(String rg, String name, Date birthdate, Date admissiondate, double salary, String password) {
+        this.rg = rg;
+        this.name = name;
+        this.birthdate = birthdate;
+        this.admissiondate = admissiondate;
+        this.salary = salary;
+        this.password = password;
+    }
+	
+    public String show() {
 		return("RG: " + this.rg + " Nome: " + this.name + " Data de nascimento: " + this.birthdate.show() + " Data de admissao: " + this.admissiondate.show() + " Salario: " + this.salary);
 	}
+	
 }

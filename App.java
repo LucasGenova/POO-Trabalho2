@@ -1,8 +1,10 @@
-import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.*;
 
 public class App {
+    private static Employee loggedAs = null;
+    private static IOMedium md = new Console();
+
     private static ArrayList<Manager> managers = new ArrayList<>();
     private static ArrayList<Seller> sellers = new ArrayList<>();
     private static ArrayList<Client> clients = new ArrayList<>();
@@ -10,15 +12,28 @@ public class App {
     private static ArrayList<Motorcycle> motorcycles = new ArrayList<>();
     private static ArrayList<Sale> sales = new ArrayList<>();
 
-
     public static void main(String[] args) {
-        Manager m1 = new Manager("a", "a", new Date(1, 1, 1950), new Date(1, 1, 1951), 1, 1);
-        Manager m2 = new Manager("b", "b", new Date(2, 2, 2000), new Date(2, 2, 2020), 2, 2);
+        Manager m1 = new Manager("a", "a", new Date(1, 1, 1950), new Date(1, 1, 1951), 1, "244466666", 1);
+        Manager m2 = new Manager("b", "b", new Date(2, 2, 2000), new Date(2, 2, 2020), 2, "password1", 2);
 
         managers.add(m1);
         managers.add(m2);
-        
+
         saveManagers();
+
+        md.init();
+        
+        while(loggedAs == null){
+            if(!verifyCredentials(md.loginScreen())){
+                md.panik("Usuario ou senha incorretos!");
+            }           
+        } 
+        md.display("Logado como " + loggedAs.getName() + "!");
+
+        if(loggedAs instanceof Manager)
+            managerMenu();
+        else
+            sellerMenu();
     }
 
     public static void saveManagers(){
@@ -37,54 +52,48 @@ public class App {
         }
     }
 
-    public static void saveSeller(){
-        try {
-            File arq = new File("managers.txt");
-            FileWriter writer = new FileWriter(arq, false);
+    public static boolean verifyCredentials(String [] credentials){
+        for(Manager manager : managers){
+            if(manager.getName().equals(credentials[0]) && manager.getPassword().equals(credentials[1])){
+                //logged sucessfully
+                loggedAs = manager;
 
-            for(int i=0; i<managers.size(); i++) {
-                writer.write(managers.get(i).show() + "\n");
+                return true;
             }
-
-            writer.close();
-
-        } catch (IOException e) {
-            System.out.println(e);
         }
+
+        for(Seller seller : sellers){
+            if(seller.getName().equals(credentials[0]) && seller.getPassword().equals(credentials[1])){
+                //logged sucessfully
+                loggedAs = seller;
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    public static void saveClient(){
-        try {
-            File arq = new File("managers.txt");
-            FileWriter writer = new FileWriter(arq, false);
-
-            for(int i=0; i<managers.size(); i++) {
-                writer.write(managers.get(i).show() + "\n");
-            }
-
-            writer.close();
-
-        } catch (IOException e) {
-            System.out.println(e);
-        }
+    public static void managerMenu(){
+        int op;
+        
+        op = md.optionMenu(new String[]{
+            "Mostrar Veiculos",
+            "Mostrar Clientes",
+            "Mostrar Vendas",
+            "Nova venda"
+            //ToDo: add manager especific options
+        });
     }
 
-    public static void saveCars(){
-        try {
-            File arq = new File("managers.txt");
-            FileWriter writer = new FileWriter(arq, false);
+    public static void sellerMenu(){
+        int op;
 
-            for(int i=0; i<managers.size(); i++) {
-                writer.write(managers.get(i).show() + "\n");
-            }
-
-            writer.close();
-
-        } catch (IOException e) {
-            System.out.println(e);
-        }
+        op = md.optionMenu(new String[]{
+            "Mostrar Veiculos",
+            "Mostrar Clientes",
+            "Mostrar Vendas",
+            "Nova venda"
+        });
     }
-
-
-    
 }
