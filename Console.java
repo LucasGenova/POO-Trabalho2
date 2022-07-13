@@ -1,4 +1,5 @@
 import java.util.InputMismatchException;
+import java.util.*;
 import java.util.Scanner;
 
 public class Console implements IOMedium {
@@ -8,7 +9,7 @@ public class Console implements IOMedium {
         System.out.println("Concessionária José Motors\n");
     }
 
-    private final static void clearConsole(){
+    public final void clearConsole(){
         System.out.print("\033[H\033[2J");   
         System.out.flush(); 
     }
@@ -48,17 +49,19 @@ public class Console implements IOMedium {
 
     public void panik(String error){
         System.out.println("\n" + error + "\n");
+        System.out.println("(Aperte Enter para continuar)");
         sc.nextLine();
         clearConsole();
     }
 
     public void display(String message){
         System.out.println("\n" + message + "\n");
+        System.out.println("(Aperte Enter para continuar)");
         sc.nextLine();
         clearConsole();
     }
 
-    public int optionMenu(String [] options){
+    public int optionMenu(String title, String [] options){
         int i, op;
 
         do{
@@ -76,6 +79,13 @@ public class Console implements IOMedium {
             else
                 panik("Opcao invalida!");
         }while(true);
+    
+    }
 
+    public void displayList(ArrayList<Object> list){
+        for(Object member : list)
+            System.out.println(member.toString());
+        
+        display("");
     }
 }
