@@ -29,7 +29,15 @@ public class Seller extends Employee {
         this("", "", null, null, 0, null, 0, null);
     }
 
-	public String show() {
-		return(super.show() + " Tempo de treinamento restante: " + this.remainingTrainingTime + " Gerente responsável {" + this.responsibleManager.show() + "}");
+	public String toString() {
+		return(super.toString() + " Tempo de treinamento restante: " + this.remainingTrainingTime + " Gerente responsável {" + this.responsibleManager.toString() + "}");
+	}
+
+	public String serialize() {
+		return (this.getRg() + "; " + this.getName() + "; " + this.getBirthdate().serialize() + "; " + this.getAdmissiondate().serialize() + "; " + this.getSalary() + "; " + this.getPassword() + "; " + this.getRemainingTrainingTime() + "; " + this.getResponsibleManager().getRg());
+	}
+
+	public static Seller parse(String [] chops){
+		return new Seller(chops[0], chops[1], new Date(chops[3]), new Date(chops[4]), Double.parseDouble(chops[5]), chops[6], Double.parseDouble(chops[7]), null);
 	}
 }

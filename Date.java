@@ -55,10 +55,18 @@ public class Date {
     }
 
 	public Date(){
-		this(0, 0, 0);
+		this(1, 1, 2000);
 	}
 
-	public String show(){
+    public Date(String date){
+        this(Integer.parseInt(date.split("-")[0]), Integer.parseInt(date.split("-")[1]), Integer.parseInt(date.split("-")[2]));
+    }
+
+	public String toString(){
 		return(this.day + "-" + this.month + "-" + this.year);
 	}
+
+    public String serialize(){
+        return(this.day + "-" + this.month + "-" + this.year);
+    }
 }

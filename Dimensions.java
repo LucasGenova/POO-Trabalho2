@@ -32,8 +32,12 @@ public class Dimensions {
         this.lenghtM = lenghtM;
     }
 
-    public String show() {
+    public String toString() {
         return("Altura: " + this.heightM + " Largura: " + this.widthM + " Comprimento: " + this.lenghtM);
+    }
+
+    public String serialize(){
+        return(this.heightM + "; " + this.widthM + "; " + this.lenghtM);
     }
 
 }

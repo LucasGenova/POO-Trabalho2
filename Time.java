@@ -7,6 +7,10 @@ public class Time {
         this.min = min;
     }
 
+    public Time(String read){
+        this(Integer.parseInt(read.split(":")[0]), Integer.parseInt(read.split(":")[1]));
+    }
+
     public Time() {
         this(0, 0);
     }
@@ -32,7 +36,7 @@ public class Time {
         return (hour >= 0) && (hour <= 23);
     }
 
-    public String show(){
+    public String toString(){
         return(this.hour + ":" + this.min);
     }
 }

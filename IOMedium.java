@@ -7,5 +7,5 @@ public interface IOMedium {
     void init(); //Initial screen of the application.
     String [] loginScreen(); //Login screen. Returns username, password pair.
     int optionMenu(String title, String [] options); //Propts menu for user and returns the option chosen or -1 to quit
-    void displayList(ArrayList<Object> list); //Mostra uma ArrayList
+    <T> void displayList(ArrayList<T> list); //Mostra uma ArrayList
 }

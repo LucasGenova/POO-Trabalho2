@@ -14,36 +14,110 @@ public class App {
     private static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
-        Manager m1 = new Manager("a", "a", new Date(1, 1, 1950), new Date(1, 1, 1951), 1, "244466666", 1);
-        Manager m2 = new Manager("b", "b", new Date(2, 2, 2000), new Date(2, 2, 2020), 2, "password1", 2);
-
-        managers.add(m1);
-        managers.add(m2);
-
-        saveManagers();
+        loadFile();
 
         md.init();
-        
-        while(loggedAs == null){
-            if(!verifyCredentials(md.loginScreen())){
-                md.panik("Usuario ou senha incorretos!");
-            }           
-        } 
-        md.display("Logado como " + loggedAs.getName() + "!");
 
-        if(loggedAs instanceof Manager)
-            managerMenu();
-        else
-            sellerMenu();
+        while(true){
+            while(loggedAs == null){
+                if(!verifyCredentials(md.loginScreen())){
+                    md.panik("Usuario ou senha incorretos!");
+                }           
+            } 
+            md.display("Logado como " + loggedAs.getName() + "!");
+
+            if(loggedAs instanceof Manager){
+                int op; 
+                managerMenu();
+                op = md.optionMenu("Voce deseja: ", new String[]{
+                    "Aterar Usuario"
+                });
+                    loggedAs = null;
+                if(op != 0){
+                    break;
+                }
+                
+            }
+                
+            else{
+                int op; 
+                sellerMenu();
+                op = md.optionMenu("Voce deseja: ", new String[]{
+                    "Alterar Usuario"
+                });
+                    loggedAs = null;
+                if(op != 0){
+                    break;
+                }
+            }
+        }
+    
+        saveFile();
     }
 
-    public static void saveManagers(){
+    public static void saveFile() {
         try {
             File arq = new File("managers.txt");
             FileWriter writer = new FileWriter(arq, false);
 
             for(int i=0; i<managers.size(); i++) {
-                writer.write(managers.get(i).show() + "\n");
+                writer.write(managers.get(i).serialize() + "\n");
+            }
+
+            writer.close();
+
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+        try {
+            File arq = new File("sellers.txt");
+            FileWriter writer = new FileWriter(arq, false);
+
+            for(int i=0; i<sellers.size(); i++) {
+                writer.write(sellers.get(i).serialize() + "\n");
+            }
+
+            writer.close();
+
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+        try {
+            File arq = new File("clients.txt");
+            FileWriter writer = new FileWriter(arq, false);
+
+            for(int i=0; i<clients.size(); i++) {
+                writer.write(clients.get(i).serialize() + "\n");
+            }
+
+            writer.close();
+
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+        try {
+            File arq = new File("vehicles.txt");
+            FileWriter writer = new FileWriter(arq, false);
+
+            for(int i=0; i<vehicles.size(); i++) {
+                writer.write(vehicles.get(i).serialize() + "\n");
+            }
+
+            writer.close();
+
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+        try {
+            File arq = new File("sales.txt");
+            FileWriter writer = new FileWriter(arq, false);
+
+            for(int i=0; i<sales.size(); i++) {
+                writer.write(sales.get(i).serialize() + "\n");
             }
 
             writer.close();
@@ -53,6 +127,105 @@ public class App {
         }
     }
 
+    public static void loadFile(){
+        try {
+            File arq = new File("managers.txt");
+            FileReader fileReader = new FileReader(arq);
+            BufferedReader reader = new BufferedReader(fileReader);
+
+            while(reader.ready()) {
+                String [] chops = reader.readLine().split("; ");
+                managers.add(Manager.parse(chops));
+            }
+
+            reader.close();
+
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+        try {
+            File arq = new File("sellers.txt");
+            FileReader fileReader = new FileReader(arq);
+            BufferedReader reader = new BufferedReader(fileReader);
+
+            while(reader.ready()) {
+                String [] chops = reader.readLine().split("; ");
+                Seller s = Seller.parse(chops);
+                
+                for(Manager m : managers) {
+                    if(m.getRg().equals(chops[chops.length-1])) {
+                        s.setResponsibleManager(m);
+                        break;
+                    }
+                }
+                
+                sellers.add(s);
+            }
+
+            reader.close();
+
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+        try {
+            File arq = new File("clients.txt");
+            FileReader fileReader = new FileReader(arq);
+            BufferedReader reader = new BufferedReader(fileReader);
+
+            while(reader.ready()) {
+                String [] chops = reader.readLine().split("; ");
+                clients.add(Client.parse(chops));
+            }
+
+            reader.close();
+
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+        try {
+            File arq = new File("vehicles.txt");
+            FileReader fileReader = new FileReader(arq);
+            BufferedReader reader = new BufferedReader(fileReader);
+
+            while(reader.ready()) {
+                String [] chops = reader.readLine().split("; ");
+
+                if(chops[0].equals("Carro")) {
+                    vehicles.add(Car.parse(chops));
+                }
+                else {
+                    vehicles.add(Motorcycle.parse(chops));
+                }
+            }
+
+            reader.close();
+
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+        try {
+            File arq = new File("sales.txt");
+            FileReader fileReader = new FileReader(arq);
+            BufferedReader reader = new BufferedReader(fileReader);
+
+            while(reader.ready()) {
+                String [] chops = reader.readLine().split("; ");
+                Sale s = Sale.parse(chops);
+
+            
+                sales.add(s);
+            }
+
+            reader.close();
+
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
     public static boolean verifyCredentials(String [] credentials){
         for(Manager manager : managers){
             if(manager.getName().equals(credentials[0]) && manager.getPassword().equals(credentials[1])){
@@ -77,30 +250,28 @@ public class App {
 
     public static void managerMenu(){
         int op;
-        
-        op = md.optionMenu(null, new String[]{
-            "Menu Veiculos",
-            "Menu Clientes",
-            "Menu Funcionarios"
-            //ToDo: add manager especific options
-        });
 
-        switch(op) {
-            case -1: 
-                return;
+        do {
+            op = md.optionMenu(null, new String[]{
+                "Menu Veiculos",
+                "Menu Clientes",
+                "Menu Funcionarios"
+            });
+
+            switch(op) {
+                case 0:
+                    vehicleMenu();
+                    break;
                 
-            case 0:
-                vehicleMenu();
-                break;
-            
-            case 1:
-                clientMenu();
-                break;
-            
-            case 2:
-                employeeMenu();
-                break;
-        }
+                case 1:
+                    clientMenu();
+                    break;
+                
+                case 2:
+                    employeeMenu();
+                    break;
+            }
+        }while(op!=-1);
     }
 
     public static void vehicleMenu(){
@@ -188,29 +359,102 @@ public class App {
     public static void sellerMenu(){
         int op;
 
-        op = md.optionMenu(null, new String[]{
-            "Mostrar Veiculos",
-            "Mostrar Clientes",
-            "Mostrar Vendas",
-            "Nova venda"
-        });
+        do {
+            op = md.optionMenu(null, new String[]{
+                "Mostrar Veiculos",
+                "Mostrar Clientes",
+                "Mostrar Vendas",
+                "Nova venda"
+            });
+            
+            switch(op) {
+                case 0:
+                    md.displayList(vehicles);
+                    break;
+                
+                case 1:
+                    md.displayList(clients);
+                    break;
+                
+                case 2:
+                    md.displayList(sales);
+                    break;
+                
+                case 3:
+                    addSale();
+                    break;
+            }
+        }while(op!=-1);
+    }
+
+    public static void addSale() {
+        Sale s = new Sale();
+        String aux;
         
-        switch(op) {
-            case -1:
-                return;
-            
-            case 0:
-                md.displayList();
+        System.out.println("\nDigite o id da venda: ");
+        s.setIdSale(sc.nextInt());
+        sc.nextLine();
+
+        System.out.println("\nDigite o RG do vendedor: ");
+        aux = sc.nextLine();
+
+        for(Seller search : sellers) {
+            if(search.getRg().equals(aux)) {
+                s.setSeller(search);
                 break;
-            
-            case 1:
-                modifySale();
-                break;
-            
-            case 2:
-                removeSale();
-                break;
+            }
         }
+
+        if(s.getSeller() == null) {
+            System.out.println("\nVendedor nao encontrado");
+            return;
+        }
+
+        System.out.println("\nDigite o CPF do cliente: ");
+        aux = sc.nextLine();
+
+        for(Client search : clients) {
+            if(search.getCpf().equals(aux)) {
+                s.setClient(search);
+                break;
+            }
+        }
+
+        if(s.getClient() == null) {
+            System.out.println("\nCliente nao encontrado");
+            return;
+        }
+
+        System.out.println("\nDigite o numero do chassi do veiculo: ");
+        aux = sc.nextLine();
+
+        for(Vehicle search : vehicles) {
+            if(search.getChassiNumber().equals(aux)) {
+                s.setVehicle(search);
+                break;
+            }
+        }
+
+        if(s.getVehicle() == null) {
+            System.out.println("\nVeiculo nao encontrado");
+            return;
+        }
+
+        System.out.println("\nDigite o valor da venda: ");
+        s.setPrice(sc.nextDouble());
+        sc.nextLine();
+
+        System.out.println("\nDigite a data da venda (dd-mm-aa): ");
+        Date d = new Date(sc.nextLine());
+
+        s.setDate(d);
+
+        System.out.println("\nDigite a hora da venda (hh:mm): ");
+        Time h = new Time(sc.nextLine());
+
+        s.setHour(h);
+
+        sales.add(s);
     }
 
     public static void addVehicle(){
@@ -238,8 +482,11 @@ public class App {
             sc.nextLine();
 
             System.out.println("\nDigite a quantidade de assentos do carro: ");
-            c.setHp(sc.nextInt());
+            c.setSeats(sc.nextInt());
             sc.nextLine();
+
+            System.out.println("\nDigite o tipo do carro: ");
+            c.setType(sc.nextLine());
 
             System.out.println("\nDigite a altura do carro: ");
             d.setHeightM(sc.nextDouble());
@@ -256,6 +503,7 @@ public class App {
             c.setDimensions(d);
 
             v = c;
+
         }
         else {
             Motorcycle m = new Motorcycle();
@@ -266,14 +514,13 @@ public class App {
 
             System.out.println("\nDigite o tipo da moto: ");
             m.setType(sc.nextLine());
-            sc.nextLine();
+        
 
             v = m;
         }
         
         System.out.println("\nDigite o numero do chassi do veiculo: ");
         v.setChassiNumber(sc.nextLine());
-        sc.nextLine();
         
         System.out.println("\nDigite a marca do veiculo: ");
         v.setBrand(sc.nextLine());
@@ -283,12 +530,15 @@ public class App {
 
         System.out.println("\nDigite o ano do veiculo: ");
         v.setYear(sc.nextInt());
+        sc.nextLine();
 
         System.out.println("\nDigite a quilometragem do veiculo: ");
         v.setMileageKm(sc.nextDouble());
+        sc.nextLine();
 
         System.out.println("\nDigite o peso do veiculo: ");
         v.setWeight(sc.nextDouble());
+        sc.nextLine();
 
         System.out.println("\nDigite o status do veiculo: ");
         v.setStatus(sc.nextLine());
@@ -301,7 +551,7 @@ public class App {
         String chassiNumber;
         int i;
 
-        System.out.println("\nDigite a placa do veiculo que voce deseja alterar: ");
+        System.out.println("\nDigite o numero do chassi do veiculo que voce deseja alterar: ");
         chassiNumber = sc.nextLine();
 
         for(i=0;i<vehicles.size();i++) {
@@ -364,8 +614,6 @@ public class App {
     public static void addClient(){
         Client c = new Client();
         Address a = new Address();
-
-        md.clearConsole();
         
         System.out.println("Digite o cpf do cliente: ");
         c.setCpf(sc.nextLine());
@@ -395,6 +643,8 @@ public class App {
         System.out.println("Digite o numero de dependentes do cliente: ");
         c.setDependents(sc.nextInt());
         sc.nextLine();
+
+        clients.add(c);
     }
 
     public static void modifyClient(){
@@ -473,7 +723,6 @@ public class App {
     }
 
     public static void removeClient(){
-        int op;
         String cpf;
         int i;
 
@@ -578,10 +827,161 @@ public class App {
     }
 
     public static void modifyEmployee(){
+        int op, mos;
+        String rg;
+        int i;
 
+        mos = md.optionMenu("Deseja alterar um: ", new String [] {
+            "Gerente",
+            "Vendedor"
+        });
+
+        if(mos==0) {
+            System.out.println("\nDigite o RG do funcionario que deseja modificar: ");
+            rg = sc.nextLine();
+
+            for(i=0;i<managers.size();i++) {
+                if(managers.get(i).getRg().equals(rg)) {
+                    break;
+                }
+                else if(i==(managers.size()-1)) {
+                    System.out.println("\nGerente nao encontrado");
+                    return;
+                }
+            }
+            
+            op = md.optionMenu("Qual atributo voce deseja modificar?", new String[] {
+                "Nome",
+                "Salario",
+                "Senha",
+                "Anos de experiencia"
+            });
+
+            switch(op) {
+                case -1:
+                    return;
+                
+                case 0:
+                    System.out.println("\nDigite o novo nome: ");
+                    managers.get(i).setName(sc.nextLine());
+                    break;
+                
+                case 1:
+                    System.out.println("\nDigite o novo salario: ");
+                    managers.get(i).setSalary(sc.nextDouble());
+                    sc.nextLine();
+                    break;
+                
+                case 2:
+                    System.out.println("\nDigite a nova senha: ");
+                    managers.get(i).setPassword(sc.nextLine());
+                    break;
+
+                case 3:
+                    System.out.println("\nDigite um novo valor para a quantidade de anos de experiencia: ");
+                    
+                    managers.get(i).setYearsOfExperience(sc.nextInt());
+                    sc.nextLine();
+                    break;
+            }
+        }
+        else if(mos==1) {
+            System.out.println("\nDigite o RG do funcionario que deseja modificar: ");
+            rg = sc.nextLine();
+
+            for(i=0;i<sellers.size();i++) {
+                if(sellers.get(i).getRg().equals(rg)) {
+                    break;
+                }
+                else if(i==(sellers.size()-1)) {
+                    System.out.println("\nGerente nao encontrado");
+                    return;
+                }
+            }
+            
+            op = md.optionMenu("Qual atributo voce deseja modificar?", new String[] {
+                "Nome",
+                "Salario",
+                "Senha",
+                "Tempo de treinamento restante",
+                "Gerente responsavel"
+            });
+
+            switch(op) {
+                case -1:
+                    return;
+                
+                case 0:
+                    System.out.println("\nDigite o novo nome: ");
+                    sellers.get(i).setName(sc.nextLine());
+                    break;
+                
+                case 1:
+                    System.out.println("\nDigite o novo salario: ");
+                    sellers.get(i).setSalary(sc.nextDouble());
+                    sc.nextLine();
+                    break;
+                
+                case 2:
+                    System.out.println("\nDigite a nova senha: ");
+                    sellers.get(i).setPassword(sc.nextLine());
+                    break;
+
+                case 3:
+                    System.out.println("\nDigite um novo tempo de experiencia restante: ");
+                    
+                    sellers.get(i).setRemainingTrainingTime(sc.nextDouble());
+                    sc.nextLine();
+                    break;
+                
+                case 4:
+                    ArrayList<String> managerNames = new ArrayList<>();
+                    int n;
+
+                    for(Manager manager : managers) {
+                        managerNames.add(manager.getName());
+                    }
+                    
+                    n = md.optionMenu("Qual gerente voce deseja escolher? ", (String []) managerNames.toArray());
+
+                    sellers.get(i).setResponsibleManager(managers.get(n));
+            }
+        }
     }
 
     public static void removeEmployee(){
-        
+        int op;
+        String rg;
+        op = md.optionMenu("Deseja remover um: ",new String []{
+            "Gerente",
+            "Vendedor"
+        });
+
+        switch(op){
+            
+            case 0:
+                System.out.println("Digite o RG do Gerente: ");
+                rg = sc.nextLine();
+
+                for(int i=0; i<managers.size(); i++){
+                    if(managers.get(i).getRg().equals(rg)){
+                        managers.remove(i);
+                        break;
+                    }
+                }
+                return;
+                
+                case 1:
+                System.out.println("Digite o RG do Vendedor: ");
+                rg = sc.nextLine();
+
+                for(int i=0; i<sellers.size(); i++){
+                    if(sellers.get(i).getRg().equals(rg)){
+                        sellers.remove(i);
+                        break;
+                    }
+                }
+                return;
+        }
     }
 }

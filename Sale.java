@@ -63,7 +63,29 @@ public class Sale {
 		this.idSale = idSale;
 	}
 
-	public String show() {
-		return("ID: " + this.idSale + " Vendedor {" + this.seller.show() + "} Cliente: " + this.client.show() + " Veiculo {" + this.vehicle.show() + "} Preco: " + this.price + " Data: " + this.date.show() + " Hora: " + this.hour.show());
+	public Sale(int idSale, Seller seller, Client client, Vehicle vehicle, double price, Date date, Time hour) {
+		this.idSale = idSale;
+		this.seller = seller;
+		this.client = client;
+		this.vehicle = vehicle;
+		this.price = price;
+		this.date = date;
+		this.hour = hour;
+	}
+
+	public Sale() {
+		this(0, null, null, null, 0, null, null);
+	}
+
+	public String toString() {
+		return("ID: " + this.idSale + " Vendedor {" + this.seller.toString() + "} Cliente: " + this.client.toString() + " Veiculo {" + this.vehicle.toString() + "} Preco: " + this.price + " Data: " + this.date.toString() + " Hora: " + this.hour.toString());
+	}
+
+	public String serialize() {
+		return (this.getIdSale() + "; " + this.getSeller().getRg() + "; " + this.getClient().getCpf() + "; " + this.getVehicle().getChassiNumber() + "; " + this.getPrice() + "; " + this.getDate().serialize() + "; " + this.getHour().toString());
+	}
+
+	public static Sale parse(String [] chops){
+		return new Sale(Integer.parseInt(chops[0]), null, null, null,Double.parseDouble(chops[chops.length-3]), new Date(chops[chops.length-2]), new Time(chops[chops.length-1]));
 	}
 }

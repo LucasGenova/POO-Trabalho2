@@ -1,4 +1,4 @@
-public abstract class Vehicle {
+public abstract class Vehicle{
     String chassiNumber;
     String brand;
     String model;
@@ -77,7 +77,11 @@ public abstract class Vehicle {
         this.status = status;
     }
 
-    public String show(){
+    public String toString(){
         return ("Chassi: " + this.chassiNumber + " Marca: " + this.brand + " Modelo: " + this.model + " Ano: " + this.year + " Quilometragem: " + this.mileageKm + " Peso: " + this.weight + " Status: " + this.status);
     }
+
+    public String serialize(){
+        return (this.getChassiNumber() + "; " + this.getBrand() + "; " + this.getModel() + "; " + this.getYear() + "; " + this.getMileageKm() + "; " + this.getWeight() + "; " + this.getStatus());
+    };
 }

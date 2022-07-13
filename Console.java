@@ -67,6 +67,10 @@ public class Console implements IOMedium {
         do{
             header();
 
+            if(title != null){
+                System.out.println(title);
+            }
+
             for(i = 0; i < options.length; i++)
                 System.out.println("[" + (i+1) + "] " + options[i]);
 
@@ -82,8 +86,8 @@ public class Console implements IOMedium {
     
     }
 
-    public void displayList(ArrayList<Object> list){
-        for(Object member : list)
+    public <T> void displayList(ArrayList<T> list){
+        for(T member : list)
             System.out.println(member.toString());
         
         display("");
