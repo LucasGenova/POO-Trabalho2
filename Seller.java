@@ -30,7 +30,7 @@ public class Seller extends Employee {
     }
 
 	public String toString() {
-		return(super.toString() + " Tempo de treinamento restante: " + this.remainingTrainingTime + " Gerente responsável {" + this.responsibleManager.toString() + "}");
+		return(super.toString() + " Tempo de treinamento restante: " + this.remainingTrainingTime + " Gerente responsável: " + this.responsibleManager.getName());
 	}
 
 	public String serialize() {
@@ -38,6 +38,6 @@ public class Seller extends Employee {
 	}
 
 	public static Seller parse(String [] chops){
-		return new Seller(chops[0], chops[1], new Date(chops[3]), new Date(chops[4]), Double.parseDouble(chops[5]), chops[6], Double.parseDouble(chops[7]), null);
+		return new Seller(chops[0], chops[1], new Date(chops[2]), new Date(chops[3]), Double.parseDouble(chops[4]), chops[5], Double.parseDouble(chops[6]), null);
 	}
 }

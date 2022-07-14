@@ -58,6 +58,6 @@ public class Car extends Vehicle {
     }
 
     public static Car parse(String [] chops){
-        return new Car(chops[0], chops[1], chops[2], Integer.parseInt(chops[3]), Double.parseDouble(chops[4]), Double.parseDouble(chops[5]), chops[6], Integer.parseInt(chops[7]), Integer.parseInt(chops[8]), Integer.parseInt(chops[9]), chops[10], new Dimensions(Integer.parseInt(chops[11]), Integer.parseInt(chops[12]), Integer.parseInt(chops[13])));
+        return new Car(chops[0], chops[1], chops[2], Integer.parseInt(chops[3]), Double.parseDouble(chops[4]), Double.parseDouble(chops[5]), chops[6], Integer.parseInt(chops[7]), Integer.parseInt(chops[8]), Integer.parseInt(chops[9]), chops[10], new Dimensions(Double.parseDouble(chops[11]), Double.parseDouble(chops[12]), Double.parseDouble(chops[13])));
     }
 }

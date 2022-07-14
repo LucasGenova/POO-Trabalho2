@@ -11,8 +11,7 @@ O sistema deverá permitir o cadastro, alteração e exclusão das classes:
     - Vendedor: tempo de treinamento restante, Gerente responsável 
     - Gerente: anos de experiência. 
 - Veículo: Número do chassi, marca, modelo, ano, quilometragem, tipo de combustível, peso, status (vendido, a venda). 
-    - Carro: potência, número de cilindros, número de ocupantes, tipo (utilitário, 
-pickup, sedan, hatch, esportivo), dimensões (altura, largura e comprimento). 
+    - Carro: potência, número de cilindros, número de ocupantes, tipo (utilitário, pickup, sedan, hatch, esportivo), dimensões (altura, largura e comprimento). 
     - Motocicleta: cilindradas, tipo(trail, street, esportiva, custom) 
  
 - Cliente: CPF, nome, Data de nascimento, endereço (rua, número, bairro e cidade), 

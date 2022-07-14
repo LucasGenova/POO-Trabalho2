@@ -61,15 +61,18 @@ public class Console implements IOMedium {
         clearConsole();
     }
 
-    public int optionMenu(String title, String [] options){
+    public int optionMenu(String title, String empty, String [] options){
         int i, op;
 
         do{
             header();
 
             if(title != null){
-                System.out.println(title);
+                System.out.println(title + "\n");
             }
+
+            if(options.length <=0)
+                System.out.println(empty + "\n");
 
             for(i = 0; i < options.length; i++)
                 System.out.println("[" + (i+1) + "] " + options[i]);

@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public abstract class Vehicle{
     String chassiNumber;
     String brand;
@@ -50,6 +52,14 @@ public abstract class Vehicle{
     }
 
     public void setYear(int year) {
+        Scanner sc = new Scanner(System.in);
+
+        while(year<1950 || year>2050) {
+            System.out.println("\nDigite um valor valido: ");
+            year = sc.nextInt();
+            sc.nextLine();
+        }
+        
         this.year = year;
     }
 
@@ -76,6 +86,8 @@ public abstract class Vehicle{
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public abstract String getType();
 
     public String toString(){
         return ("Chassi: " + this.chassiNumber + " Marca: " + this.brand + " Modelo: " + this.model + " Ano: " + this.year + " Quilometragem: " + this.mileageKm + " Peso: " + this.weight + " Status: " + this.status);

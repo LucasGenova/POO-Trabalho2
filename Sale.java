@@ -6,8 +6,17 @@ public class Sale {
 	private double price;
 	private Date date;
 	private Time hour;
+	private String paymentMethod;
 
-    public Time getHour() {
+    public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+
+	public Time getHour() {
 		return hour;
 	}
 
@@ -63,7 +72,7 @@ public class Sale {
 		this.idSale = idSale;
 	}
 
-	public Sale(int idSale, Seller seller, Client client, Vehicle vehicle, double price, Date date, Time hour) {
+	public Sale(int idSale, Seller seller, Client client, Vehicle vehicle, double price, Date date, Time hour, String paymentMethod) {
 		this.idSale = idSale;
 		this.seller = seller;
 		this.client = client;
@@ -71,10 +80,11 @@ public class Sale {
 		this.price = price;
 		this.date = date;
 		this.hour = hour;
+		this.paymentMethod = paymentMethod;
 	}
 
 	public Sale() {
-		this(0, null, null, null, 0, null, null);
+		this(0, null, null, null, 0, null, null, "");
 	}
 
 	public String toString() {
@@ -86,6 +96,6 @@ public class Sale {
 	}
 
 	public static Sale parse(String [] chops){
-		return new Sale(Integer.parseInt(chops[0]), null, null, null,Double.parseDouble(chops[chops.length-3]), new Date(chops[chops.length-2]), new Time(chops[chops.length-1]));
+		return new Sale(Integer.parseInt(chops[0]), null, null, null,Double.parseDouble(chops[chops.length-4]), new Date(chops[chops.length-3]), new Time(chops[chops.length-2]), chops[chops.length-1]);
 	}
 }

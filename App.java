@@ -11,6 +11,9 @@ public class App {
     private static ArrayList<Vehicle> vehicles = new ArrayList<>();
     private static ArrayList<Sale> sales = new ArrayList<>();
 
+    private static String [] carTypes = new String[] {"Utilitário", "Pickup", "Sedan", "Hatch", "Esportivo"};
+    private static String [] motorcycleTypes = new String[] {"Trail", "Street", "Esportiva", "Custom"};
+
     private static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -29,8 +32,8 @@ public class App {
             if(loggedAs instanceof Manager){
                 int op; 
                 managerMenu();
-                op = md.optionMenu("Voce deseja: ", new String[]{
-                    "Aterar Usuario"
+                op = md.optionMenu("Voce deseja: ", "", new String[]{
+                    "Alterar Usuario"
                 });
                     loggedAs = null;
                 if(op != 0){
@@ -42,7 +45,7 @@ public class App {
             else{
                 int op; 
                 sellerMenu();
-                op = md.optionMenu("Voce deseja: ", new String[]{
+                op = md.optionMenu("Voce deseja: ", "", new String[]{
                     "Alterar Usuario"
                 });
                     loggedAs = null;
@@ -194,10 +197,10 @@ public class App {
                 String [] chops = reader.readLine().split("; ");
 
                 if(chops[0].equals("Carro")) {
-                    vehicles.add(Car.parse(chops));
+                    vehicles.add(Car.parse(Arrays.copyOfRange(chops, 1, chops.length)));
                 }
                 else {
-                    vehicles.add(Motorcycle.parse(chops));
+                    vehicles.add(Motorcycle.parse(Arrays.copyOfRange(chops, 1, chops.length)));
                 }
             }
 
@@ -212,10 +215,25 @@ public class App {
             FileReader fileReader = new FileReader(arq);
             BufferedReader reader = new BufferedReader(fileReader);
 
+            int i;
             while(reader.ready()) {
                 String [] chops = reader.readLine().split("; ");
                 Sale s = Sale.parse(chops);
-
+                
+                for(i=0; i<sellers.size(); i++){
+                    if(sellers.get(i).getRg().equals(chops[1]))
+                        s.setSeller(sellers.get(i));
+                }
+                
+                for(i=0; i<clients.size(); i++){
+                    if(clients.get(i).getCpf().equals(chops[2]))
+                        s.setClient(clients.get(i));
+                }
+                
+                for(i=0; i<vehicles.size(); i++){
+                    if(vehicles.get(i).getChassiNumber().equals(chops[3]))
+                        s.setVehicle(vehicles.get(i));
+                }
             
                 sales.add(s);
             }
@@ -252,10 +270,11 @@ public class App {
         int op;
 
         do {
-            op = md.optionMenu(null, new String[]{
+            op = md.optionMenu(null, "", new String[]{
                 "Menu Veiculos",
                 "Menu Clientes",
-                "Menu Funcionarios"
+                "Menu Funcionarios",
+                "Nova venda"
             });
 
             switch(op) {
@@ -270,97 +289,203 @@ public class App {
                 case 2:
                     employeeMenu();
                     break;
+                
+                case 3:
+                    addSale();
+                    break;
             }
         }while(op!=-1);
     }
 
     public static void vehicleMenu(){
         int op;
+        
+        do {
+            op = md.optionMenu(null, "", new String[]{
+                "Adicionar veículo",
+                "Alterar veículo",
+                "Remover veículo",
+                "Mostrar veículos"
+            });
 
-        op = md.optionMenu(null, new String[]{
-            "Adicionar veículo",
-            "Alterar veículo",
-            "Remover veículo",
-        });
-
-        switch(op) {
-            case -1:
-                return;
-            
-            case 0:
-                addVehicle();               
-                break;
-            
-            case 1:
-                modifyVehicle();
-                break;
-            
-            case 2:
-                removeVehicle();
-                break;
-        }
+            switch(op) {
+                case 0:
+                    addVehicle();               
+                    break;
+                
+                case 1:
+                    modifyVehicle();
+                    break;
+                
+                case 2:
+                    removeVehicle();
+                    break;
+                case 3: 
+                    md.displayList(vehicles);
+            }
+        }while(op != -1);
     }
 
     public static void clientMenu(){
         int op;
 
-        op = md.optionMenu(null, new String[]{
-            "Adicionar cliente",
-            "Alterar cliente",
-            "Remover cliente",
-        });
+        do {
+            op = md.optionMenu(null, "", new String[]{
+                "Adicionar cliente",
+                "Alterar cliente",
+                "Remover cliente",
+                "Mostrar clientes"
+            });
 
-        switch(op) {
-            case -1:
-                return;
-            
-            case 0:
-                addClient();    
-                break;
-            
-            case 1:
-                modifyClient();
-                break;
-            
-            case 2:
-                removeClient();
-                break;
-        }
+            switch(op) {
+                case 0:
+                    addClient();    
+                    break;
+                
+                case 1:
+                    modifyClient();
+                    break;
+                
+                case 2:
+                    removeClient();
+                    break;
+
+                case 3:
+                    md.displayList(clients);
+                    break;
+            }
+        }while(op != -1);
     }
 
     public static void employeeMenu(){
         int op;
 
-        op = md.optionMenu(null, new String[]{
-            "Adicionar funcionario",
-            "Alterar funcionario",
-            "Remover funcionario",
-            "Mostrar informacoes de funcionario"
-        });
+        do {
+            op = md.optionMenu(null, "", new String[]{
+                "Adicionar funcionario",
+                "Alterar funcionario",
+                "Remover funcionario",
+                "Mostrar informacoes de funcionario"
+            });
 
-        switch(op) {
-            case -1:
-                return;
-            
-            case 0:
-                addEmployee();
-                break;
-            
-            case 1:
-                modifyEmployee();
-                break;
-            
-            case 2:
-                removeEmployee();
-                break;
-        }
+            switch(op) {
+                case 0:
+                    addEmployee();
+                    break;
+                
+                case 1:
+                    modifyEmployee();
+                    break;
+                
+                case 2:
+                    removeEmployee();
+                    break;
+
+                case 3:
+                    for(Seller seller : sellers) {
+                        int qtd=0, higherM=0, higherC=0;
+                        int [] typeC = new int[]{0, 0, 0, 0, 0};
+                        int [] typeM = new int[]{0, 0, 0, 0};
+                        
+                        if(loggedAs.getRg().equals(seller.getResponsibleManager().getRg())) {
+                            System.out.print(seller.toString());
+
+                            int i=0;
+                        
+                            for(Sale sale : sales) {
+                                System.out.print(" Venda " + (i+1) + ": " + sale.getPaymentMethod());
+                                
+                                if(sale.getSeller().getRg().equals(seller.getRg())) {
+                                    qtd++;
+
+                                    if(sale.getVehicle() instanceof Car) {
+                                        switch(sale.getVehicle().getType()) {
+                                            case "Utilitario":
+                                                typeC[0]++;
+                                                break;
+
+                                            case "Pickup":
+                                                typeC[1]++;
+                                                break;
+
+                                            case "Sedan":
+                                                typeC[2]++;
+                                                break;
+                                            
+                                            case "Hatch":
+                                                typeC[3]++;
+                                                break;
+                                            
+                                            case "Esportivo":
+                                                typeC[4]++;
+                                                break;
+                                        }
+                                    }
+                                    else if(sale.getVehicle() instanceof Motorcycle) {
+                                        switch(sale.getVehicle().getType()) {
+                                            case "Trail":
+                                                typeM[0]++;
+                                                break;
+
+                                            case "Street":
+                                                typeM[1]++;
+                                                break;
+
+                                            case "Esportiva":
+                                                typeM[2]++;
+                                                break;
+                                            
+                                            case "Custom":
+                                                typeM[3]++;
+                                                break;
+                                        }
+                                    }
+                                }
+
+                                i++;
+                            }
+
+                            for(i=0;i<5;i++) {
+                                if(typeC[i]>higherC) {
+                                    higherC = typeC[i];
+                                }
+                                if(typeM[i]>higherM) {
+                                    higherM = typeM[i];
+                                }
+                            }
+
+                            System.out.print(" Quantidade vendida: " + qtd);
+
+                            if(qtd>0) {
+                                System.out.print(" Tipo de carro mais vendido: ");
+
+                                for(i=0;i<5;i++) {
+                                    if(typeC[i]==higherC && higherC>0) {
+                                        System.out.print(carTypes[i] + " ");
+                                    }
+                                }
+
+                                System.out.print(" Tipo de moto mais vendida: ");
+
+                                for(i=0;i<4;i++) {
+                                    if(typeM[i]==higherM && higherM>0) {
+                                        System.out.print(motorcycleTypes[i] + " ");
+                                    }
+                                }
+                            }
+
+                            System.out.println("\n");
+                        }
+                    }
+            }
+        }while(op!=-1);
     }
 
     public static void sellerMenu(){
         int op;
 
         do {
-            op = md.optionMenu(null, new String[]{
+            op = md.optionMenu(null, "", new String[]{
                 "Mostrar Veiculos",
                 "Mostrar Clientes",
                 "Mostrar Vendas",
@@ -389,7 +514,9 @@ public class App {
 
     public static void addSale() {
         Sale s = new Sale();
+        ArrayList<String> vehicleNames = new ArrayList<>();
         String aux;
+        int n=0;
         
         System.out.println("\nDigite o id da venda: ");
         s.setIdSale(sc.nextInt());
@@ -398,17 +525,23 @@ public class App {
         System.out.println("\nDigite o RG do vendedor: ");
         aux = sc.nextLine();
 
-        for(Seller search : sellers) {
-            if(search.getRg().equals(aux)) {
-                s.setSeller(search);
-                break;
+        do {
+            for(Seller search : sellers) {
+                if(search.getRg().equals(aux)) {
+                    s.setSeller(search);
+                    break;
+                }
             }
-        }
 
-        if(s.getSeller() == null) {
-            System.out.println("\nVendedor nao encontrado");
-            return;
-        }
+            if(s.getSeller() == null) {
+                n = md.optionMenu("Vendedor nao encontrado!", "", new String[] {
+                    "Digitar o RG novamente"
+                });
+            }
+            else {
+                n=-1;
+            }
+        }while(n!=-1);
 
         System.out.println("\nDigite o CPF do cliente: ");
         aux = sc.nextLine();
@@ -425,20 +558,22 @@ public class App {
             return;
         }
 
-        System.out.println("\nDigite o numero do chassi do veiculo: ");
-        aux = sc.nextLine();
+        for(Vehicle vehicle : vehicles) {
+            if(vehicle.getStatus().equals("A venda")) {
+                vehicleNames.add(vehicle.getModel() + " - " + vehicle.getChassiNumber());
+            }
+        }
 
-        for(Vehicle search : vehicles) {
-            if(search.getChassiNumber().equals(aux)) {
-                s.setVehicle(search);
+        n = md.optionMenu("Qual veiculo voce deseja escolher? ", "Nenhum veiculo foi encontrado", vehicleNames.toArray(new String[vehicleNames.size()]));
+
+        for(int i=0;i<vehicles.size();i++) {
+            if(vehicleNames.get(n).split(" - ")[1].equals(vehicles.get(i).getChassiNumber())) {
+                s.setVehicle(vehicles.get(i));
                 break;
             }
         }
 
-        if(s.getVehicle() == null) {
-            System.out.println("\nVeiculo nao encontrado");
-            return;
-        }
+        s.getVehicle().setStatus("Vendido");
 
         System.out.println("\nDigite o valor da venda: ");
         s.setPrice(sc.nextDouble());
@@ -452,6 +587,9 @@ public class App {
         System.out.println("\nDigite a hora da venda (hh:mm): ");
         Time h = new Time(sc.nextLine());
 
+        System.out.println("\nA venda foi a prazo ou a vista? ");
+        s.setPaymentMethod(sc.nextLine());
+
         s.setHour(h);
 
         sales.add(s);
@@ -461,7 +599,7 @@ public class App {
         int op;
         Vehicle v;
 
-        op = md.optionMenu(null, new String[] {
+        op = md.optionMenu(null, "", new String[] {
             "Adicionar Carro",
             "Adicionar Moto"
         });
@@ -484,9 +622,8 @@ public class App {
             System.out.println("\nDigite a quantidade de assentos do carro: ");
             c.setSeats(sc.nextInt());
             sc.nextLine();
-
-            System.out.println("\nDigite o tipo do carro: ");
-            c.setType(sc.nextLine());
+ 
+            c.setType(carTypes[md.optionMenu("Escolha o tipo do veiculo", "", carTypes)]);
 
             System.out.println("\nDigite a altura do carro: ");
             d.setHeightM(sc.nextDouble());
@@ -512,10 +649,7 @@ public class App {
             m.setEngineCapacity(sc.nextDouble());
             sc.nextLine();
 
-            System.out.println("\nDigite o tipo da moto: ");
-            m.setType(sc.nextLine());
-        
-
+            m.setType(motorcycleTypes[md.optionMenu("Escolha o tipo do veiculo", "", motorcycleTypes)]);
             v = m;
         }
         
@@ -564,31 +698,30 @@ public class App {
             }
         }
 
-        op = md.optionMenu("Qual atributo voce deseja modificar?", new String[] {
-            "Numero do chassi",
-            "Quilometragem",
-            "Status"
-        });
+        do {
+            op = md.optionMenu("Qual atributo voce deseja modificar?", "", new String[] {
+                "Numero do chassi",
+                "Quilometragem",
+                "Status"
+            });
 
-        switch(op) {
-            case -1:
-                return;
-            
-            case 0:
-                System.out.println("\nDigite o novo valor do Chassi: ");
-                vehicles.get(i).setChassiNumber(sc.nextLine());
-                break;
-            
-            case 1:
-                System.out.println("\nDigite o novo valor da quilometragem: ");
-                vehicles.get(i).setMileageKm(sc.nextDouble());
-                break;
-            
-            case 2:
-                System.out.println("\nDigite o novo status: ");
-                vehicles.get(i).setStatus(sc.nextLine());
-                break;
-        }
+            switch(op) {
+                case 0:
+                    System.out.println("\nDigite o novo valor do Chassi: ");
+                    vehicles.get(i).setChassiNumber(sc.nextLine());
+                    break;
+                
+                case 1:
+                    System.out.println("\nDigite o novo valor da quilometragem: ");
+                    vehicles.get(i).setMileageKm(sc.nextDouble());
+                    break;
+                
+                case 2:
+                    System.out.println("\nDigite o novo status: ");
+                    vehicles.get(i).setStatus(sc.nextLine());
+                    break;
+            }
+        }while(op!=-1);
     }
 
     public static void removeVehicle(){
@@ -665,61 +798,63 @@ public class App {
             }
         }
 
-        op = md.optionMenu("Qual atributo voce deseja modificar?", new String[] {
-            "Cpf",
-            "Nome",
-            "Data de aniversario",
-            "Endereco",
-            "Renda",
-            "Numero de dependentes"
-        });
+        do {
+            op = md.optionMenu("Qual atributo voce deseja modificar?", "", new String[] {
+                "Cpf",
+                "Nome",
+                "Data de aniversario",
+                "Endereco",
+                "Renda",
+                "Numero de dependentes"
+            });
 
-        switch(op) {
-            case -1:
-                return;
-            
-            case 0:
-                System.out.println("\nDigite o novo cpf: ");
-                clients.get(i).setCpf(sc.nextLine());
-                break;
-            
-            case 1:
-                System.out.println("\nDigite o novo nome: ");
-                clients.get(i).setName(sc.nextLine());
-                break;
-            
-            case 2:
-                System.out.println("\nDigite a nova data de aniversario: ");
-                clients.get(i).setBirthdate(new Date(sc.nextLine()));
-                break;
-
-            case 3:
-                Address a = new Address();
-                System.out.println("\nDigite o novo endereco: ");
-
-                System.out.println("Digite a nova rua: ");
-                a.setStreet(sc.nextLine());
+            switch(op) {
+                case -1:
+                    return;
                 
-                System.out.println("Digite o novo bairro: ");
-                a.setDistrict(sc.nextLine());
-
-                System.out.println("Digite a nova cidade: ");
-                a.setCity(sc.nextLine());
+                case 0:
+                    System.out.println("\nDigite o novo cpf: ");
+                    clients.get(i).setCpf(sc.nextLine());
+                    break;
                 
-                clients.get(i).setAddress(a);
-                break;
+                case 1:
+                    System.out.println("\nDigite o novo nome: ");
+                    clients.get(i).setName(sc.nextLine());
+                    break;
+                
+                case 2:
+                    System.out.println("\nDigite a nova data de aniversario: ");
+                    clients.get(i).setBirthdate(new Date(sc.nextLine()));
+                    break;
 
-            case 4:
-                System.out.println("\nDigite a nova renda: ");
-                clients.get(i).setIncome(sc.nextDouble());
-                sc.nextLine();
-                break;
+                case 3:
+                    Address a = new Address();
+                    System.out.println("\nDigite o novo endereco: ");
 
-            case 5:
-                System.out.println("\nDigite o novo cpf: ");
-                clients.get(i).setCpf(sc.nextLine());
-                break;
-        }
+                    System.out.println("Digite a nova rua: ");
+                    a.setStreet(sc.nextLine());
+                    
+                    System.out.println("Digite o novo bairro: ");
+                    a.setDistrict(sc.nextLine());
+
+                    System.out.println("Digite a nova cidade: ");
+                    a.setCity(sc.nextLine());
+                    
+                    clients.get(i).setAddress(a);
+                    break;
+
+                case 4:
+                    System.out.println("\nDigite a nova renda: ");
+                    clients.get(i).setIncome(sc.nextDouble());
+                    sc.nextLine();
+                    break;
+
+                case 5:
+                    System.out.println("\nDigite o novo cpf: ");
+                    clients.get(i).setCpf(sc.nextLine());
+                    break;
+            }
+        }while(op!=-1);
     }
 
     public static void removeClient(){
@@ -747,7 +882,7 @@ public class App {
         Employee e;
         String date;
 
-        op = md.optionMenu(null, new String[] {
+        op = md.optionMenu(null, "", new String[] {
             "Adicionar Gerente",
             "Adicionar Vendedor"
         });
@@ -831,7 +966,7 @@ public class App {
         String rg;
         int i;
 
-        mos = md.optionMenu("Deseja alterar um: ", new String [] {
+        mos = md.optionMenu("Deseja alterar um: ", "", new String [] {
             "Gerente",
             "Vendedor"
         });
@@ -850,40 +985,42 @@ public class App {
                 }
             }
             
-            op = md.optionMenu("Qual atributo voce deseja modificar?", new String[] {
-                "Nome",
-                "Salario",
-                "Senha",
-                "Anos de experiencia"
-            });
+            do {
+                op = md.optionMenu("Qual atributo voce deseja modificar?", "", new String[] {
+                    "Nome",
+                    "Salario",
+                    "Senha",
+                    "Anos de experiencia"
+                });
 
-            switch(op) {
-                case -1:
-                    return;
-                
-                case 0:
-                    System.out.println("\nDigite o novo nome: ");
-                    managers.get(i).setName(sc.nextLine());
-                    break;
-                
-                case 1:
-                    System.out.println("\nDigite o novo salario: ");
-                    managers.get(i).setSalary(sc.nextDouble());
-                    sc.nextLine();
-                    break;
-                
-                case 2:
-                    System.out.println("\nDigite a nova senha: ");
-                    managers.get(i).setPassword(sc.nextLine());
-                    break;
-
-                case 3:
-                    System.out.println("\nDigite um novo valor para a quantidade de anos de experiencia: ");
+                switch(op) {
+                    case -1:
+                        return;
                     
-                    managers.get(i).setYearsOfExperience(sc.nextInt());
-                    sc.nextLine();
-                    break;
-            }
+                    case 0:
+                        System.out.println("\nDigite o novo nome: ");
+                        managers.get(i).setName(sc.nextLine());
+                        break;
+                    
+                    case 1:
+                        System.out.println("\nDigite o novo salario: ");
+                        managers.get(i).setSalary(sc.nextDouble());
+                        sc.nextLine();
+                        break;
+                    
+                    case 2:
+                        System.out.println("\nDigite a nova senha: ");
+                        managers.get(i).setPassword(sc.nextLine());
+                        break;
+
+                    case 3:
+                        System.out.println("\nDigite um novo valor para a quantidade de anos de experiencia: ");
+                        
+                        managers.get(i).setYearsOfExperience(sc.nextInt());
+                        sc.nextLine();
+                        break;
+                }
+            }while(op!=-1);
         }
         else if(mos==1) {
             System.out.println("\nDigite o RG do funcionario que deseja modificar: ");
@@ -899,60 +1036,62 @@ public class App {
                 }
             }
             
-            op = md.optionMenu("Qual atributo voce deseja modificar?", new String[] {
-                "Nome",
-                "Salario",
-                "Senha",
-                "Tempo de treinamento restante",
-                "Gerente responsavel"
-            });
+            do {
+                op = md.optionMenu("Qual atributo voce deseja modificar?", "", new String[] {
+                    "Nome",
+                    "Salario",
+                    "Senha",
+                    "Tempo de treinamento restante",
+                    "Gerente responsavel"
+                });
 
-            switch(op) {
-                case -1:
-                    return;
-                
-                case 0:
-                    System.out.println("\nDigite o novo nome: ");
-                    sellers.get(i).setName(sc.nextLine());
-                    break;
-                
-                case 1:
-                    System.out.println("\nDigite o novo salario: ");
-                    sellers.get(i).setSalary(sc.nextDouble());
-                    sc.nextLine();
-                    break;
-                
-                case 2:
-                    System.out.println("\nDigite a nova senha: ");
-                    sellers.get(i).setPassword(sc.nextLine());
-                    break;
-
-                case 3:
-                    System.out.println("\nDigite um novo tempo de experiencia restante: ");
+                switch(op) {
+                    case -1:
+                        return;
                     
-                    sellers.get(i).setRemainingTrainingTime(sc.nextDouble());
-                    sc.nextLine();
-                    break;
-                
-                case 4:
-                    ArrayList<String> managerNames = new ArrayList<>();
-                    int n;
-
-                    for(Manager manager : managers) {
-                        managerNames.add(manager.getName());
-                    }
+                    case 0:
+                        System.out.println("\nDigite o novo nome: ");
+                        sellers.get(i).setName(sc.nextLine());
+                        break;
                     
-                    n = md.optionMenu("Qual gerente voce deseja escolher? ", (String []) managerNames.toArray());
+                    case 1:
+                        System.out.println("\nDigite o novo salario: ");
+                        sellers.get(i).setSalary(sc.nextDouble());
+                        sc.nextLine();
+                        break;
+                    
+                    case 2:
+                        System.out.println("\nDigite a nova senha: ");
+                        sellers.get(i).setPassword(sc.nextLine());
+                        break;
 
-                    sellers.get(i).setResponsibleManager(managers.get(n));
-            }
+                    case 3:
+                        System.out.println("\nDigite um novo tempo de experiencia restante: ");
+                        
+                        sellers.get(i).setRemainingTrainingTime(sc.nextDouble());
+                        sc.nextLine();
+                        break;
+                    
+                    case 4:
+                        ArrayList<String> managerNames = new ArrayList<>();
+                        int n;
+
+                        for(Manager manager : managers) {
+                            managerNames.add(manager.getName());
+                        }
+                        
+                        n = md.optionMenu("Qual gerente voce deseja escolher? ", "Nenhum gerente cadastrado", managerNames.toArray(new String[managerNames.size()]));
+
+                        sellers.get(i).setResponsibleManager(managers.get(n));
+                }
+            }while(op!=-1);
         }
     }
 
     public static void removeEmployee(){
         int op;
         String rg;
-        op = md.optionMenu("Deseja remover um: ",new String []{
+        op = md.optionMenu("Deseja remover um: ", "", new String []{
             "Gerente",
             "Vendedor"
         });
