@@ -18,7 +18,6 @@ public class App {
 
     public static void main(String[] args) {
         loadFile();
-
         md.init();
 
         while(true){
@@ -518,9 +517,7 @@ public class App {
         String aux;
         int n=0;
         
-        System.out.println("\nDigite o id da venda: ");
-        s.setIdSale(sc.nextInt());
-        sc.nextLine();
+        s.setIdSale(md.getInt("Digite o id da venda: ", null));
 
         System.out.println("\nDigite o RG do vendedor: ");
         aux = sc.nextLine();
@@ -566,6 +563,8 @@ public class App {
 
         n = md.optionMenu("Qual veiculo voce deseja escolher? ", "Nenhum veiculo foi encontrado", vehicleNames.toArray(new String[vehicleNames.size()]));
 
+        if(n <0) return;
+
         for(int i=0;i<vehicles.size();i++) {
             if(vehicleNames.get(n).split(" - ")[1].equals(vehicles.get(i).getChassiNumber())) {
                 s.setVehicle(vehicles.get(i));
@@ -575,9 +574,7 @@ public class App {
 
         s.getVehicle().setStatus("Vendido");
 
-        System.out.println("\nDigite o valor da venda: ");
-        s.setPrice(sc.nextDouble());
-        sc.nextLine();
+        s.setPrice(md.getDouble("Digite o valor da venda: ", null));
 
         System.out.println("\nDigite a data da venda (dd-mm-aa): ");
         Date d = new Date(sc.nextLine());
@@ -611,31 +608,19 @@ public class App {
             Car c = new Car();
             Dimensions d = new Dimensions();
             
-            System.out.println("\nDigite a potencia do carro: ");
-            c.setHp(sc.nextInt());
-            sc.nextLine();
+            c.setHp(md.getInt("Digite a potencia do carro:" , null));
 
-            System.out.println("\nDigite a cilindrada do carro: ");
-            c.setCilinders(sc.nextInt());
-            sc.nextLine();
+            c.setCilinders(md.getInt("Digite a cilindrada do carro: " , null));
 
-            System.out.println("\nDigite a quantidade de assentos do carro: ");
-            c.setSeats(sc.nextInt());
-            sc.nextLine();
+            c.setSeats(md.getInt("Digite a quantidade de assentos do carro: ", null));
  
             c.setType(carTypes[md.optionMenu("Escolha o tipo do veiculo", "", carTypes)]);
 
-            System.out.println("\nDigite a altura do carro: ");
-            d.setHeightM(sc.nextDouble());
-            sc.nextLine();
+            d.setHeightM(md.getDouble("Digite a altura do carro: ", null));
 
-            System.out.println("\nDigite a largura do carro: ");
-            d.setWidthM(sc.nextDouble());
-            sc.nextLine();
+            d.setWidthM(md.getDouble("Digite a largura do carro: ", null));
 
-            System.out.println("\nDigite o comprimento do carro: ");
-            d.setLenghtM(sc.nextDouble());
-            sc.nextLine();
+            d.setLenghtM(md.getDouble("Digite o comprimento do carro: ", null));
 
             c.setDimensions(d);
 
@@ -645,9 +630,7 @@ public class App {
         else {
             Motorcycle m = new Motorcycle();
             
-            System.out.println("\nDigite a capacidade do motor da moto: ");
-            m.setEngineCapacity(sc.nextDouble());
-            sc.nextLine();
+            m.setEngineCapacity(md.getDouble("Digite a capacidade do motor da moto: ", null));
 
             m.setType(motorcycleTypes[md.optionMenu("Escolha o tipo do veiculo", "", motorcycleTypes)]);
             v = m;
@@ -662,17 +645,11 @@ public class App {
         System.out.println("\nDigite o modelo do veiculo: ");
         v.setModel(sc.nextLine());
 
-        System.out.println("\nDigite o ano do veiculo: ");
-        v.setYear(sc.nextInt());
-        sc.nextLine();
+        v.setYear(md.getInt("Digite o ano do veiculo: " , null));
 
-        System.out.println("\nDigite a quilometragem do veiculo: ");
-        v.setMileageKm(sc.nextDouble());
-        sc.nextLine();
+        v.setMileageKm(md.getDouble("Digite a quilometragem do veiculo: ", null));
 
-        System.out.println("\nDigite o peso do veiculo: ");
-        v.setWeight(sc.nextDouble());
-        sc.nextLine();
+        v.setWeight(md.getDouble("Digite o peso do veiculo: ", null));
 
         System.out.println("\nDigite o status do veiculo: ");
         v.setStatus(sc.nextLine());
@@ -712,8 +689,7 @@ public class App {
                     break;
                 
                 case 1:
-                    System.out.println("\nDigite o novo valor da quilometragem: ");
-                    vehicles.get(i).setMileageKm(sc.nextDouble());
+                    vehicles.get(i).setMileageKm(md.getDouble("Digite o novo valor da quilometragem: ", null));
                     break;
                 
                 case 2:
@@ -770,12 +746,10 @@ public class App {
         c.setAddress(a);
 
         System.out.println("Digite a renda do cliente: ");
-        c.setIncome(sc.nextDouble());
+        c.setIncome(md.getDouble(title, null));
         sc.nextLine();
 
-        System.out.println("Digite o numero de dependentes do cliente: ");
-        c.setDependents(sc.nextInt());
-        sc.nextLine();
+        c.setDependents(md.getInt("Digite o numero de dependentes do cliente: ", null));
 
         clients.add(c);
     }
@@ -845,7 +819,7 @@ public class App {
 
                 case 4:
                     System.out.println("\nDigite a nova renda: ");
-                    clients.get(i).setIncome(sc.nextDouble());
+                    clients.get(i).setIncome(md.getDouble(title, null));
                     sc.nextLine();
                     break;
 
@@ -893,9 +867,7 @@ public class App {
         else if(op==0) {
             Manager m = new Manager();
             
-            System.out.println("Digite quantos anos de experiencia o gerente possui: ");
-            m.setYearsOfExperience(sc.nextInt());
-            sc.nextLine();
+            m.setYearsOfExperience(md.getInt("Digite quantos anos de experiencia o gerente possui: ", null));
 
             e = m;
         }
@@ -905,7 +877,7 @@ public class App {
             int i;
             
             System.out.println("\nDigite o tempo de treinamento restante do vendedor: ");
-            s.setRemainingTrainingTime(sc.nextDouble());
+            s.setRemainingTrainingTime(md.getDouble(title, null));
             sc.nextLine();
 
             System.out.println("\nDigite o RG do gerente responsavel: ");
@@ -947,7 +919,7 @@ public class App {
         e.setAdmissiondate(da);
 
         System.out.println("\nDigite o salario do funcionario: ");
-        e.setSalary(sc.nextDouble());
+        e.setSalary(md.getDouble(title, null));
         sc.nextLine();
 
         System.out.println("\nDigite a senha do funcionario: ");
@@ -1004,7 +976,7 @@ public class App {
                     
                     case 1:
                         System.out.println("\nDigite o novo salario: ");
-                        managers.get(i).setSalary(sc.nextDouble());
+                        managers.get(i).setSalary(md.getDouble(title, null));
                         sc.nextLine();
                         break;
                     
@@ -1014,10 +986,7 @@ public class App {
                         break;
 
                     case 3:
-                        System.out.println("\nDigite um novo valor para a quantidade de anos de experiencia: ");
-                        
-                        managers.get(i).setYearsOfExperience(sc.nextInt());
-                        sc.nextLine();
+                        managers.get(i).setYearsOfExperience(md.getInt("Digite um novo valor para a quantidade de anos de experiencia: ", null));
                         break;
                 }
             }while(op!=-1);
@@ -1056,7 +1025,7 @@ public class App {
                     
                     case 1:
                         System.out.println("\nDigite o novo salario: ");
-                        sellers.get(i).setSalary(sc.nextDouble());
+                        sellers.get(i).setSalary(md.getDouble(title, null));
                         sc.nextLine();
                         break;
                     
@@ -1068,7 +1037,7 @@ public class App {
                     case 3:
                         System.out.println("\nDigite um novo tempo de experiencia restante: ");
                         
-                        sellers.get(i).setRemainingTrainingTime(sc.nextDouble());
+                        sellers.get(i).setRemainingTrainingTime(md.getDouble(title, null));
                         sc.nextLine();
                         break;
                     

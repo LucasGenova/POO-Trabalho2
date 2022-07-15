@@ -29,6 +29,21 @@ public class Console implements IOMedium {
         }
     }
 
+    private double readDouble(){
+        double op;
+
+        while(true){
+            try{
+                op = sc.nextDouble();
+                sc.nextLine();
+                return op;
+            }catch(InputMismatchException e){
+                sc.nextLine();
+                panik("Digite apenas numeros!");
+            }
+        }
+    }
+
     public void init(){
         clearConsole();
     }
@@ -65,6 +80,7 @@ public class Console implements IOMedium {
         int i, op;
 
         do{
+            clearConsole();
             header();
 
             if(title != null){
@@ -94,5 +110,71 @@ public class Console implements IOMedium {
             System.out.println(member.toString());
         
         display("");
+    }
+
+    public int getInt(String title, String error){
+        int ans;
+
+        if(error==null)
+            error = "Digite um numero valido!";
+        
+        while(true)
+            try {
+                clearConsole();
+                header();
+                System.out.println(title + "\n");
+                ans=sc.nextInt();
+                sc.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                sc.nextLine();
+                panik(error);
+                clearConsole();
+            }
+
+        return ans;
+    }
+
+    public double getDouble(String title, String error){
+        double ans;
+
+        if(error==null)
+            error = "Digite um numero valido!";
+
+        while(true)
+            try {
+                clearConsole();
+                header();
+        
+                System.out.println(title + "\n");
+                ans=sc.nextDouble();
+                sc.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                sc.nextLine();
+                panik(error);
+                clearConsole();
+            }
+        
+        return ans;
+    }
+
+    public String getString(String title, String error){
+        String ans="";
+                
+        while(true){
+            clearConsole();
+            header();
+            System.out.println(title + "\n");
+            ans = sc.nextLine();
+
+            if(ans == null || ans.equals("") || ans.equals("\n"))
+                break;
+            else
+                panik(error);
+                clearConsole();
+        }   
+        
+        return ans;
     }
 }
