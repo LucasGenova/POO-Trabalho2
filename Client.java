@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class Client {
     private String cpf;
     private String name;
@@ -58,7 +56,15 @@ public class Client {
         this.dependents = dependents;
     }
 
-    public String show() {
-        return("CPF: " + this.cpf + " Nome: " + this.name + " Data de nascimento: " + this.birthdate.show() + "Endereco {" + this.address.show() + "} Renda: " + this.income + " Dependentes: " + this.dependents);
+    public String toString() {
+        return("CPF: " + this.cpf + " Nome: " + this.name + " Data de nascimento: " + this.birthdate.toString() + "Endereco {" + this.address.toString() + "} Renda: " + this.income + " Dependentes: " + this.dependents);
+    }
+
+    public String serialize(){
+        return(this.cpf + "; " + this.name + "; " + this.birthdate.serialize() + "; " + this.address.serialize() + "; " + this.income  + "; " + this.dependents);
+    }
+
+    public static Client parse(String [] chops){
+        return new Client(chops[0], chops[1], new Date(chops[2]), new Address(chops[3], chops[4], chops[5]), Double.parseDouble(chops[6]), Integer.parseInt(chops[7]));
     }
 }

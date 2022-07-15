@@ -61,11 +61,18 @@ public class Console implements IOMedium {
         clearConsole();
     }
 
-    public int optionMenu(String title, String [] options){
+    public int optionMenu(String title, String empty, String [] options){
         int i, op;
 
         do{
             header();
+
+            if(title != null){
+                System.out.println(title + "\n");
+            }
+
+            if(options.length <=0)
+                System.out.println(empty + "\n");
 
             for(i = 0; i < options.length; i++)
                 System.out.println("[" + (i+1) + "] " + options[i]);
@@ -82,8 +89,8 @@ public class Console implements IOMedium {
     
     }
 
-    public void displayList(ArrayList<Object> list){
-        for(Object member : list)
+    public <T> void displayList(ArrayList<T> list){
+        for(T member : list)
             System.out.println(member.toString());
         
         display("");

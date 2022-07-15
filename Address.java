@@ -32,7 +32,11 @@ public class Address {
         this.city = city;
     }
 
-    public String show() {
+    public String toString() {
         return("Rua: " + this.street + " Bairro: " + this.district + " Cidade: " + this.city);
+    }
+
+    public String serialize(){
+        return(this.street + "; " + this.district + "; " + this.city);
     }
 }

@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public abstract class Employee {
     protected String rg;
 	protected String name;
@@ -7,7 +5,6 @@ public abstract class Employee {
 	protected Date admissiondate;
 	protected double salary;
 	protected String password;
-	protected ArrayList<Sale> sales = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -59,8 +56,8 @@ public abstract class Employee {
         this.password = password;
     }
 	
-    public String show() {
-		return("RG: " + this.rg + " Nome: " + this.name + " Data de nascimento: " + this.birthdate.show() + " Data de admissao: " + this.admissiondate.show() + " Salario: " + this.salary);
+    public String toString() {
+		return("RG: " + this.rg + " Nome: " + this.name + " Data de nascimento: " + this.birthdate.toString() + " Data de admissao: " + this.admissiondate.toString() + " Salario: " + this.salary);
 	}
 	
 }
