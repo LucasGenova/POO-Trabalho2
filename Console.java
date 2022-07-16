@@ -29,21 +29,6 @@ public class Console implements IOMedium {
         }
     }
 
-    private double readDouble(){
-        double op;
-
-        while(true){
-            try{
-                op = sc.nextDouble();
-                sc.nextLine();
-                return op;
-            }catch(InputMismatchException e){
-                sc.nextLine();
-                panik("Digite apenas numeros!");
-            }
-        }
-    }
-
     public void init(){
         clearConsole();
     }
@@ -70,7 +55,10 @@ public class Console implements IOMedium {
     }
 
     public void display(String message){
-        System.out.println("\n" + message + "\n");
+        if(message != null)
+            System.out.println("\n" + message);
+        System.out.println("\n");
+            
         System.out.println("(Aperte Enter para continuar)");
         sc.nextLine();
         clearConsole();
@@ -109,7 +97,7 @@ public class Console implements IOMedium {
         for(T member : list)
             System.out.println(member.toString());
         
-        display("");
+        display(null);
     }
 
     public int getInt(String title, String error){
@@ -161,6 +149,9 @@ public class Console implements IOMedium {
 
     public String getString(String title, String error){
         String ans="";
+
+        if(error == null)
+            error = "Resposta invalida";
                 
         while(true){
             clearConsole();
@@ -168,7 +159,7 @@ public class Console implements IOMedium {
             System.out.println(title + "\n");
             ans = sc.nextLine();
 
-            if(ans == null || ans.equals("") || ans.equals("\n"))
+            if(!(ans == null || ans.equals("") || ans.equals("\n")))
                 break;
             else
                 panik(error);

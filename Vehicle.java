@@ -9,6 +9,8 @@ public abstract class Vehicle{
     double weight;
     String status;
 
+    Scanner sc = new Scanner(System.in);
+
     public Vehicle(String chassiNumber, String brand, String model, int year, double mileageKm, double weight, String status) {
         this.chassiNumber = chassiNumber;
         this.brand = brand;
@@ -52,7 +54,6 @@ public abstract class Vehicle{
     }
 
     public void setYear(int year) {
-        Scanner sc = new Scanner(System.in);
 
         while(year<1950 || year>2050) {
             System.out.println("\nDigite um valor valido: ");
