@@ -12,7 +12,7 @@ public class Date {
 
 	public void setYear(int year) {
 		while(year<1950 || year>2050) {
-            System.out.println("Digite um valor válido: \n");
+            System.out.println("Digite um valor válido para o ano: \n");
             year = sc.nextInt();
             sc.nextLine();
         }
@@ -26,7 +26,7 @@ public class Date {
 
 	public void setMonth(int month) {
 		while(month<1 || month>12) {
-            System.out.println("Digite um valor válido: \n");
+            System.out.println("Digite um valor válido para o mes: \n");
             month = sc.nextInt();
             sc.nextLine();
         }
@@ -40,7 +40,7 @@ public class Date {
 
 	public void setDay(int day) {
 		while(day<1 || day>31) {
-            System.out.println("Digite um valor válido: \n");
+            System.out.println("Digite um valor válido para o dia: \n");
             day = sc.nextInt();
             sc.nextLine();
         }
@@ -60,6 +60,10 @@ public class Date {
 
     public Date(String date){
         this(Integer.parseInt(date.split("-")[0]), Integer.parseInt(date.split("-")[1]), Integer.parseInt(date.split("-")[2]));
+    }
+
+    public boolean isValid(){
+        return (this.day>0 && this.day<=31) && (this.month>0 && this.month<=12) && (this.year>=1950 && this.year<=2050);
     }
 
 	public String toString(){

@@ -168,4 +168,28 @@ public class Console implements IOMedium {
         
         return ans;
     }
+
+    public Date getDate(String title, String error){
+        Date d;
+
+        if(error == null)
+            error = "Digite uma data valida!";
+
+        while(true)
+            try {
+                clearConsole();
+                header();
+                System.out.println(title);
+                d = new Date(sc.nextLine());
+
+                if(d.isValid())
+                    break;
+                else
+                    panik("Formato de data invalido! Digite uma data valida");
+            } catch (Exception e) {
+                panik(error);
+            }
+
+        return d;
+    }
 }

@@ -11,4 +11,5 @@ public interface IOMedium {
     int getInt(String title, String error); //Ask for an int until it's given by the user
     double getDouble(String title, String error); //Ask for a double until it's given by the user
     String getString(String title, String error); //Ask for a String until it's given by the user
+    Date getDate(String title, String error); //Ask for a Date until it's given by the user
 }

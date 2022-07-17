@@ -242,9 +242,6 @@ public class App {
         }
     }
     public static boolean verifyCredentials(String [] credentials){
-        if(managers.size() == 0 && sellers.size() == 0)
-            return true;
-            
         for(Manager manager : managers){
             if(manager.getName().equals(credentials[0]) && manager.getPassword().equals(credentials[1])){
                 //logged sucessfully
@@ -576,7 +573,7 @@ public class App {
 
         s.setPrice(md.getDouble("Digite o valor da venda: ", null));
 
-        Date d = new Date(md.getString("Digite a data da venda (dd-mm-aaaa): ", "Digite uma data valida!")); //todo date validation
+        Date d = md.getDate("Digite a data da venda (dd-mm-aaaa): ", "Digite uma data valida!"); //todo date validation
 
         s.setDate(d);
 
@@ -747,7 +744,7 @@ public class App {
 
         c.setName(md.getString("Digite o nome do cliente: ", null));
 
-        c.setBirthdate(new Date(md.getString("Digite a data de aniversario do cliente: ", null)));
+        c.setBirthdate(md.getDate("Digite a data de aniversario do cliente: ", null));
 
         a.setStreet(md.getString("Digite o endereco do cliente:\nDigite a rua: ", null));
         a.setDistrict(md.getString("Digite o endereco do cliente:\nDigite o bairro: ", null));
@@ -801,7 +798,7 @@ public class App {
                     break;
                 
                 case 2:
-                    clients.get(i).setBirthdate(new Date(md.getString("Digite a nova data de aniversario: ", null)));
+                    clients.get(i).setBirthdate(md.getDate("Digite a nova data de aniversario: ", null));
                     break;
 
                 case 3:
@@ -846,7 +843,6 @@ public class App {
     public static void addEmployee(){
         int op;
         Employee e;
-        String date;
 
         op = md.optionMenu(null, "", new String[] {
             "Adicionar Gerente",
@@ -866,11 +862,21 @@ public class App {
         else {
             Seller s = new Seller();
             String rg;
-            int i;
+            ArrayList<String> managerNames = new ArrayList<>();
+            int i, selectedManager;
 
             s.setRemainingTrainingTime(md.getDouble("Digite o tempo de treinamento restante do vendedor: " , null));
 
-            rg = md.getString("Digite o RG do gerente responsavel: ", null);
+            for(Manager manager : managers){
+                managerNames.add(manager.getRg() + "-" + manager.getName());
+            }
+
+            selectedManager = md.optionMenu("Escolha o gerente responsavel: ", "Nenhum gerente cadastrado", managerNames.toArray(new String [managerNames.size()]));
+
+            if(selectedManager==-1)
+                return;
+
+            rg = (managerNames.get(selectedManager).split("-")[0]).trim();
 
             for(i=0;i<managers.size();i++) {
                 if(managers.get(i).getRg().equals(rg)) {
@@ -891,17 +897,9 @@ public class App {
 
         e.setName(md.getString("Digite o nome do funcionario: ", null));
 
-        date = md.getString("Digite a data de nascimento do funcionario (dd-mm-aaaa): ", null);
+        e.setBirthdate(md.getDate("Digite a data de nascimento do funcionario (dd-mm-aaaa): ", null));
 
-        Date db = new Date(date);
-
-        e.setBirthdate(db);
-
-        date = md.getString("Digite a data de admissao do funcionario (dd-mm-aaaa): ", null);
-
-        Date da = new Date(date);
-
-        e.setAdmissiondate(da);
+        e.setAdmissiondate(md.getDate("Digite a data de admissao do funcionario (dd-mm-aaaa): ", null));
 
         e.setSalary(md.getDouble("Digite o salario do funcionario: " , null));
 
