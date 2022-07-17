@@ -55,7 +55,10 @@ public class Console implements IOMedium {
     }
 
     public void display(String message){
-        System.out.println("\n" + message + "\n");
+        if(message != null)
+            System.out.println("\n" + message);
+        System.out.println("\n");
+            
         System.out.println("(Aperte Enter para continuar)");
         sc.nextLine();
         clearConsole();
@@ -65,6 +68,7 @@ public class Console implements IOMedium {
         int i, op;
 
         do{
+            clearConsole();
             header();
 
             if(title != null){
@@ -91,8 +95,136 @@ public class Console implements IOMedium {
 
     public <T> void displayList(ArrayList<T> list){
         for(T member : list)
-            System.out.println(member.toString());
+            System.out.println(member.toString() + "\n");
         
-        display("");
+        display(null);
+    }
+
+    public int getInt(String title, String error, int exitValue){
+        int ans;
+
+        if(error==null)
+            error = "Digite um numero valido!";
+        
+        while(true)
+            try {
+                clearConsole();
+                header(); 
+                System.out.println(title + "(Digite " + exitValue + " para sair)" + "\n");
+                ans=sc.nextInt();
+                sc.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                sc.nextLine();
+                panik(error);
+                clearConsole();
+            }
+
+        return ans;
+    }
+
+    public double getDouble(String title, String error, double exitValue){
+        double ans;
+
+        if(error==null)
+            error = "Digite um numero valido!";
+
+        while(true)
+            try {
+                clearConsole();
+                header();
+        
+                System.out.println(title + "(Digite " + exitValue + " para sair)" + "\n");
+                ans=sc.nextDouble();
+                sc.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                sc.nextLine();
+                panik(error);
+                clearConsole();
+            }
+        
+        return ans;
+    }
+
+    public String getString(String title, String error, String exitString){
+        String ans="";
+
+        if(error == null)
+            error = "Resposta invalida";
+                
+        while(true){
+            clearConsole();
+            header();
+            System.out.println(title + "(Digite " + exitString + " para sair)" + "\n");
+            ans = sc.nextLine();
+
+            if(!(ans == null || ans.equals("") || ans.equals("\n")))
+                break;
+            else
+                panik(error);
+                clearConsole();
+        }   
+        
+        return ans;
+    }
+
+    public Date getDate(String title, String error, String exitString){
+        Date d;
+        String input;
+
+        if(error == null)
+            error = "Digite uma data valida!";
+
+        while(true) 
+            try {
+                clearConsole();
+                header();
+                System.out.println(title+ "(Digite " + exitString + " para sair)" + "\n");
+
+                input = sc.nextLine();
+                
+                if(input.equals(exitString))
+                    return null;
+                d = new Date();
+
+                if(d.isValid())
+                    break;
+                else
+                    panik("Formato de data invalido! Digite uma data valida");
+            } catch (Exception e) {
+                panik(error);
+            }
+
+        return d;
+    }
+
+    public Time getTime(String title, String error, String exitString){
+        Time t;
+        String input;
+
+        if(error == null)
+            error = "Digite uma hora valida!";
+
+        while(true)
+            try {
+                clearConsole();
+                header();
+                System.out.println(title+ "(Digite " + exitString + " para sair)" + "\n");
+
+                input = sc.nextLine();
+                if(input.equals(exitString))
+                    return null;
+                t = new Time();
+
+                if(t.isValid())
+                    break;
+                else
+                    panik("Formato de hora invalido! Digite uma hora valida");
+            } catch (Exception e) {
+                panik(error);
+            }
+
+        return t;
     }
 }

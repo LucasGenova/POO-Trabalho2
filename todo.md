@@ -1,1 +1,3 @@
--add verifications on the vehicle status
+-add manager registration in case of none registred (!!)
+-add selection menu for choices along the code 
+-add time validation (faço essa...)

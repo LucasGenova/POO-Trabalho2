@@ -57,7 +57,7 @@ public class Client {
     }
 
     public String toString() {
-        return("CPF: " + this.cpf + " Nome: " + this.name + " Data de nascimento: " + this.birthdate.toString() + "Endereco {" + this.address.toString() + "} Renda: " + this.income + " Dependentes: " + this.dependents);
+        return("CPF: " + this.cpf + " Nome: " + this.name + " Data de nascimento: " + this.birthdate.toString() + " Endereco {" + this.address.toString() + "} Renda: " + this.income + " Dependentes: " + this.dependents);
     }
 
     public String serialize(){
