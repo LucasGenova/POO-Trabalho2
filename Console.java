@@ -100,7 +100,7 @@ public class Console implements IOMedium {
         display(null);
     }
 
-    public int getInt(String title, String error){
+    public int getInt(String title, String error, int exitValue){
         int ans;
 
         if(error==null)
@@ -110,7 +110,7 @@ public class Console implements IOMedium {
             try {
                 clearConsole();
                 header();
-                System.out.println(title + "\n");
+                System.out.println(title + "(Digite " + exitValue + " para sair)" + "\n");
                 ans=sc.nextInt();
                 sc.nextLine();
                 break;
@@ -123,7 +123,7 @@ public class Console implements IOMedium {
         return ans;
     }
 
-    public double getDouble(String title, String error){
+    public double getDouble(String title, String error, double exitValue){
         double ans;
 
         if(error==null)
@@ -134,7 +134,7 @@ public class Console implements IOMedium {
                 clearConsole();
                 header();
         
-                System.out.println(title + "\n");
+                System.out.println(title + "(Digite " + exitValue + " para sair)" + "\n");
                 ans=sc.nextDouble();
                 sc.nextLine();
                 break;
@@ -147,7 +147,7 @@ public class Console implements IOMedium {
         return ans;
     }
 
-    public String getString(String title, String error){
+    public String getString(String title, String error, String exitString){
         String ans="";
 
         if(error == null)
@@ -156,7 +156,7 @@ public class Console implements IOMedium {
         while(true){
             clearConsole();
             header();
-            System.out.println(title + "\n");
+            System.out.println(title + "(Digite " + exitString + " para sair)" + "\n");
             ans = sc.nextLine();
 
             if(!(ans == null || ans.equals("") || ans.equals("\n")))

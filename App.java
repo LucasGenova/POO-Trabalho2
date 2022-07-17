@@ -513,11 +513,15 @@ public class App {
         Sale s = new Sale();
         ArrayList<String> vehicleNames = new ArrayList<>();
         String aux;
-        int n=0, op;
+        int n=0, op, resp;
+        double respD;
         
-        s.setIdSale(md.getInt("Digite o id da venda: ", null));
+        resp = md.getInt("Digite o id da venda: ", null, 0);
+        if(resp == 0) return;
+            s.setIdSale(resp);
 
-        aux = md.getString("Digite o RG do vendedor: ", "Digite um RG valido");
+        aux = md.getString("Digite o RG do vendedor: ", "Digite um RG valido", "0");
+        if(aux.equals("0")) return;
 
         do {
             for(Seller search : sellers) {
@@ -531,6 +535,7 @@ public class App {
                 n = md.optionMenu("Vendedor nao encontrado!", "", new String[] {
                     "Digitar o RG novamente"
                 });
+                if(n==-1) return;
             }
             else {
                 n=-1;
@@ -538,7 +543,8 @@ public class App {
         }while(n!=-1);
 
         System.out.println();
-        aux = md.getString("Digite o CPF do cliente: ", "Digite um CPF valido");
+        aux = md.getString("Digite o CPF do cliente: ", "Digite um CPF valido", "0");
+        if(aux.equals("0")) return;
 
         for(Client search : clients) {
             if(search.getCpf().equals(aux)) {
@@ -571,14 +577,16 @@ public class App {
 
         s.getVehicle().setStatus("Vendido");
 
-        s.setPrice(md.getDouble("Digite o valor da venda: ", null));
+        respD = md.getDouble("Digite o valor da venda: ", null, 0);
+        if(respD == 0) return;
+            s.setPrice(respD);
 
         Date d = md.getDate("Digite a data da venda (dd-mm-aaaa): ", "Digite uma data valida!"); //todo date validation
 
         s.setDate(d);
 
-        Time h = new Time(md.getString("Digite a hora da venda (hh:mm): ", "Digite uma hora valida")); //todo
-
+        Time h = new Time(md.getString("Digite a hora da venda (hh:mm): ", "Digite uma hora valida", "")); //todo
+        
         op = md.optionMenu("A venda foi: ", "", new String []{
             "A vista",
             "A prazo"
@@ -596,7 +604,9 @@ public class App {
     }
 
     public static void addVehicle(){
-        int op, opStatus;
+        int op, opStatus, resp;
+        double respD;
+        String aux;
         Vehicle v;
 
         op = md.optionMenu(null, "", new String[] {
@@ -611,19 +621,31 @@ public class App {
             Car c = new Car();
             Dimensions d = new Dimensions();
             
-            c.setHp(md.getInt("Digite a potencia do carro:" , null));
+            resp = md.getInt("Digite a potencia do carro:", null, 0);
+            if(resp == 0) return;
+                c.setHp(resp);
 
-            c.setCilinders(md.getInt("Digite a cilindrada do carro: " , null));
+            resp = md.getInt("Digite a cilindrada do carro: ", null, 0);
+            if(resp == 0) return;
+                c.setCilinders(resp);
 
-            c.setSeats(md.getInt("Digite a quantidade de assentos do carro: ", null));
+            resp = md.getInt("Digite a quantidade de assentos do carro: ", null, 0);
+            if(resp == 0) return;
+                c.setSeats(resp);
  
             c.setType(carTypes[md.optionMenu("Escolha o tipo do veiculo", "", carTypes)]);
 
-            d.setHeightM(md.getDouble("Digite a altura do carro: ", null));
+            respD = md.getDouble("Digite a altura do carro: ", null, 0.0);
+            if(respD == 0.0) return;
+                d.setHeightM(respD);
 
-            d.setWidthM(md.getDouble("Digite a largura do carro: ", null));
+            respD = md.getDouble("Digite a largura do carro: ", null, 0.0);
+            if(respD == 0.0) return;
+                d.setWidthM(respD);
 
-            d.setLenghtM(md.getDouble("Digite o comprimento do carro: ", null));
+            respD = md.getDouble("Digite o comprimento do carro: ", null, 0.0);
+            if(respD == 0.0) return;
+                d.setLenghtM(respD);
 
             c.setDimensions(d);
 
@@ -632,25 +654,36 @@ public class App {
         }
         else {
             Motorcycle m = new Motorcycle();
-            
-            m.setEngineCapacity(md.getDouble("Digite a capacidade do motor da moto: ", null));
+
+            respD = md.getDouble("Digite a capacidade do motor da moto: ", null, 0.0);
+            if(respD == 0.0) return;
+                m.setEngineCapacity(respD);
 
             m.setType(motorcycleTypes[md.optionMenu("Escolha o tipo do veiculo: ", "", motorcycleTypes)]);
             v = m;
         }
         
-        v.setChassiNumber(md.getString("Digite o numero do chassi do veiculo: ", null));
         
         System.out.println("\nDigite a marca do veiculo: ");
-        v.setBrand(md.getString("Digite a marca do veiculo: ", null));
+        aux = md.getString("Digite a marca do veiculo: ", null, "0");
+        if(aux.equals("0")) return;
+            v.setBrand(aux);
 
-        v.setModel(md.getString("Digite o modelo do veiculo: ", null));
+        aux = md.getString("Digite o modelo do veiculo: ", null, "0");
+        if(aux.equals("0")) return;
+            v.setModel(aux);
 
-        v.setYear(md.getInt("Digite o ano do veiculo: " , null));
+        resp = md.getInt("Digite o ano do veiculo: ", null, 0);
+        if(resp == 0) return;
+            v.setYear(resp);
 
-        v.setMileageKm(md.getDouble("Digite a quilometragem do veiculo: ", null));
+        respD = md.getDouble("Digite a quilometragem do veiculo: ", null, 0.0);
+        if(respD == 0.0) return;
+            v.setMileageKm(respD);
 
-        v.setWeight(md.getDouble("Digite o peso do veiculo: ", null));
+        respD = md.getDouble("Digite o peso do veiculo: ", null, 0.0);
+        if(respD == 0.0) return;
+            v.setWeight(respD);
 
         opStatus = md.optionMenu("Digite o novo status do veiculo: ", "", new String []{
             "A venda",
@@ -667,11 +700,13 @@ public class App {
 
     public static void modifyVehicle(){
         int op, opStatus;
-        String chassiNumber;
+        double respD;
+        String chassiNumber, aux;
         int i;
 
         System.out.println();
-        chassiNumber = md.getString("Digite o numero do chassi do veiculo que voce deseja alterar: ", null);
+        chassiNumber = md.getString("Digite o numero do chassi do veiculo que voce deseja alterar: ", null, "0");
+        if(chassiNumber.equals("0")) return;
 
         for(i=0;i<vehicles.size();i++) {
             if(vehicles.get(i).getChassiNumber().equals(chassiNumber)) {
@@ -692,11 +727,14 @@ public class App {
 
             switch(op) {
                 case 0:
-                    vehicles.get(i).setChassiNumber(md.getString("Digite o novo valor do Chassi: ", null));
+                    aux = md.getString("Digite o novo valor do Chassi: ", null, "0");
+                    vehicles.get(i).setChassiNumber(aux);
                     break;
                 
                 case 1:
-                    vehicles.get(i).setMileageKm(md.getDouble("Digite o novo valor da quilometragem: ", null));
+                    respD = md.getDouble("Digite o novo valor da quilometragem: ", null, 0.0);
+                    if(respD == 0.0) return;
+                        vehicles.get(i).setMileageKm(respD);
                     break;
                 
                 case 2:
@@ -721,7 +759,8 @@ public class App {
         String chassiNumber;
         int i;
 
-        chassiNumber = md.getString("Digite o numero do chassi do veiculo a ser alterado: ", null);
+        chassiNumber = md.getString("Digite o numero do chassi do veiculo a ser alterado: ", null, "0");
+        if(chassiNumber.equals("0")) return;
 
         for(i=0;i<vehicles.size();i++) {
             if(vehicles.get(i).getChassiNumber().equals(chassiNumber)) {
@@ -737,33 +776,54 @@ public class App {
     }
     
     public static void addClient(){
+        int resp;
+        double respD;
+        String aux;
         Client c = new Client();
         Address a = new Address();
         
-        c.setCpf(md.getString("Digite o cpf do cliente: ", null));
+        aux = md.getString("Digite o cpf do cliente: ", null, "0");
+        if(aux.equals("0")) return;
+        c.setCpf(aux);
 
-        c.setName(md.getString("Digite o nome do cliente: ", null));
+        aux = md.getString("Digite o nome do cliente: ", null, "0");
+        if(aux.equals("0")) return;
+        c.setName(aux);
 
         c.setBirthdate(md.getDate("Digite a data de aniversario do cliente: ", null));
 
-        a.setStreet(md.getString("Digite o endereco do cliente:\nDigite a rua: ", null));
-        a.setDistrict(md.getString("Digite o endereco do cliente:\nDigite o bairro: ", null));
-        a.setCity(md.getString("Digite o endereco do cliente:\nDigite a cidade: ", null));
+        aux = md.getString("Digite o endereco do cliente:\nDigite a rua: ", null, "0");
+        if(aux.equals("0")) return;
+        a.setStreet(aux);
+
+        aux = md.getString("Digite o endereco do cliente:\nDigite o bairro: ", null, "0");
+        if(aux.equals("0")) return;
+        a.setDistrict(aux);
+
+        aux = md.getString("Digite o endereco do cliente:\nDigite a cidade: ", null, "0");
+        if(aux.equals("0")) return;
+        a.setCity(aux);
         c.setAddress(a);
 
-        c.setIncome(md.getDouble("Digite a renda do cliente: " , null));
+        respD = md.getDouble("Digite a renda do cliente: ", null, 0.0);
+        if(respD == 0.0) return;
+            c.setIncome(respD);
 
-        c.setDependents(md.getInt("Digite o numero de dependentes do cliente: ", null));
+        resp = md.getInt("Digite o numero de dependentes do cliente: ", null, -1);
+        if(resp == -1) return;
+            c.setDependents(resp);
 
         clients.add(c);
     }
 
     public static void modifyClient(){
         int op;
-        String cpf;
+        double respD;
+        String cpf, aux;
         int i;
 
-        cpf = md.getString("Digite o cpf do cliente que voce deseja alterar: ", null);
+        cpf = md.getString("Digite o cpf do cliente que voce deseja alterar: ", null, "0");
+        if(cpf.equals("0")) return;
 
         for(i=0;i<clients.size();i++) {
             if(clients.get(i).getCpf().equals(cpf)) {
@@ -790,11 +850,15 @@ public class App {
                     return;
                 
                 case 0:
-                    clients.get(i).setCpf(md.getString("Digite o novo cpf: ", null));
+                    aux = md.getString("Digite o novo cpf: ", null, "0");
+                    if(aux.equals("0")) return;
+                    clients.get(i).setCpf(aux);
                     break;
                 
                 case 1:
-                    clients.get(i).setName(md.getString("Digite o novo nome: ", null));
+                    aux = md.getString("Digite o novo nome: ", null, "0");
+                    if(aux.equals("0")) return;
+                    clients.get(i).setName(aux);
                     break;
                 
                 case 2:
@@ -804,18 +868,30 @@ public class App {
                 case 3:
                     Address a = new Address();
 
-                    a.setStreet(md.getString("Digite o endereco do cliente:\nDigite a rua: ", null));
-                    a.setDistrict(md.getString("Digite o endereco do cliente:\nDigite o bairro: ", null));
-                    a.setCity(md.getString("Digite o endereco do cliente:\nDigite a cidade: ", null));
+                    aux = md.getString("Digite o endereco do cliente:\nDigite a rua: ", null, "0");
+                    if(aux.equals("0")) return;
+                    a.setStreet(aux);
+
+                    aux = md.getString("Digite o endereco do cliente:\nDigite o bairro: ", null, "0");
+                    if(aux.equals("0")) return;
+                    a.setDistrict(aux);
+
+                    aux = md.getString("Digite o endereco do cliente:\nDigite a cidade: ", null, "0");
+                    if(aux.equals("0")) return;
+                    a.setCity(aux);
                     clients.get(i).setAddress(a);
                     break;
 
                 case 4:
-                    clients.get(i).setIncome(md.getDouble("Digite a nova renda: ", null));
+                    respD = md.getDouble("Digite a nova renda: ", null, -1.0);
+                    if(respD == -1.0) return;
+                        clients.get(i).setIncome(respD);
                     break;
 
                 case 5:
-                    clients.get(i).setCpf(md.getString("Digite o novo cpf: ", null));
+                    aux = md.getString("Digite o novo cpf: ", null, "0");
+                    if(aux.equals("0")) return;
+                    clients.get(i).setCpf(aux);
                     break;
             }
         }while(op!=-1);
@@ -825,7 +901,8 @@ public class App {
         String cpf;
         int i;
 
-        cpf = md.getString("Digite o cpf do cliente que voce deseja alterar: ", null);
+        cpf = md.getString("Digite o cpf do cliente que voce deseja alterar: ", null, "0");
+        if(cpf.equals("0")) return;
 
         for(i=0;i<clients.size();i++) {
             if(clients.get(i).getCpf().equals(cpf)) {
@@ -841,7 +918,9 @@ public class App {
     }
 
     public static void addEmployee(){
-        int op;
+        int op, resp;
+        double respD;
+        String aux;
         Employee e;
 
         op = md.optionMenu(null, "", new String[] {
@@ -855,7 +934,9 @@ public class App {
         else if(op==0) {
             Manager m = new Manager();
             
-            m.setYearsOfExperience(md.getInt("Digite quantos anos de experiencia o gerente possui: ", null));
+            resp = md.getInt("Digite quantos anos de experiencia o gerente possui: ", null, -1);
+            if(resp == -1) return;
+                m.setYearsOfExperience(resp);
 
             e = m;
         }
@@ -865,7 +946,9 @@ public class App {
             ArrayList<String> managerNames = new ArrayList<>();
             int i, selectedManager;
 
-            s.setRemainingTrainingTime(md.getDouble("Digite o tempo de treinamento restante do vendedor: " , null));
+            respD = md.getDouble("Digite o tempo de treinamento restante do vendedor: ", null, 0.0);
+            if(respD == 0.0) return;
+                s.setRemainingTrainingTime(respD);
 
             for(Manager manager : managers){
                 managerNames.add(manager.getRg() + "-" + manager.getName());
@@ -893,17 +976,25 @@ public class App {
             e = s;
         }
 
-        e.setRg(md.getString("Digite o RG do funcionario: ", null));
+        aux = md.getString("Digite o RG do funcionario: ", null, "0");
+        if(aux.equals("0")) return;
+        e.setRg(aux);
 
-        e.setName(md.getString("Digite o nome do funcionario: ", null));
+        aux = md.getString("Digite o nome do funcionario: ", null, "0");
+        if(aux.equals("0")) return;
+        e.setName(aux);
 
         e.setBirthdate(md.getDate("Digite a data de nascimento do funcionario (dd-mm-aaaa): ", null));
 
         e.setAdmissiondate(md.getDate("Digite a data de admissao do funcionario (dd-mm-aaaa): ", null));
 
-        e.setSalary(md.getDouble("Digite o salario do funcionario: " , null));
+        respD = md.getDouble("Digite o salario do funcionario: ", null, -1.0);
+        if(respD == -1.0) return;
+            e.setSalary(respD);
 
-        e.setPassword(md.getString("Digite a senha do funcionario: ", null));
+        aux = md.getString("Digite a senha do funcionario: ", null, "0");
+        if(aux.equals("0")) return;
+        e.setPassword(aux);
 
         if(e instanceof Manager) {
             managers.add(((Manager) e));
@@ -914,8 +1005,9 @@ public class App {
     }
 
     public static void modifyEmployee(){
-        int op, mos;
-        String rg;
+        int op, mos, resp;
+        double respD;
+        String rg, aux;
         int i;
 
         mos = md.optionMenu("Deseja alterar um: ", "", new String [] {
@@ -924,7 +1016,8 @@ public class App {
         });
 
         if(mos==0) {
-            rg = md.getString("Digite o RG do funcionario que deseja modificar: ", null);
+            rg = md.getString("Digite o RG do funcionario que deseja modificar: ", null, "0");
+            if(rg.equals("0")) return;
 
             for(i=0;i<managers.size();i++) {
                 if(managers.get(i).getRg().equals(rg)) {
@@ -949,25 +1042,34 @@ public class App {
                         return;
                     
                     case 0:
-                        managers.get(i).setName(md.getString("Digite o novo nome: ", null));
+                        aux = md.getString("Digite o novo nome: ", null, "0");
+                        if(aux.equals("0")) return;
+                        managers.get(i).setName(aux);
                         break;
                     
                     case 1:
-                        managers.get(i).setSalary(md.getDouble("Digite o novo salario: ", null));
+                        respD = md.getDouble("Digite o novo salario: ", null, 0.0);
+                        if(respD == 0.0) return;
+                            managers.get(i).setSalary(respD);
                         break;
                     
                     case 2:
-                        managers.get(i).setPassword(md.getString("Digite a nova senha: ", null));
+                        aux = md.getString("Digite a nova senha: ", null, "0");
+                        if(aux.equals("0")) return;
+                        managers.get(i).setPassword(aux);
                         break;
 
                     case 3:
-                        managers.get(i).setYearsOfExperience(md.getInt("Digite um novo valor para a quantidade de anos de experiencia: ", null));
+                        resp = md.getInt("Digite um novo valor para a quantidade de anos de experiencia: ", null, -1);
+                        if(resp == -1) return;
+                            managers.get(i).setYearsOfExperience(resp);
                         break;
                 }
             }while(op!=-1);
         }
         else if(mos==1) {
-            rg = md.getString("Digite o RG do funcionario que deseja modificar: ", null);
+            rg = md.getString("Digite o RG do funcionario que deseja modificar: ", null, "0");
+            if(rg.equals("0")) return;
 
             for(i=0;i<sellers.size();i++) {
                 if(sellers.get(i).getRg().equals(rg)) {
@@ -993,19 +1095,27 @@ public class App {
                         return;
                     
                     case 0:
-                        sellers.get(i).setName(md.getString("Digite o novo nome: ", null));
+                        aux = md.getString("Digite o novo nome: ", null, "0");
+                        if(aux.equals("0")) return;
+                        sellers.get(i).setName(aux);
                         break;
                     
                     case 1:
-                        sellers.get(i).setSalary(md.getDouble("Digite o novo salario: ", null));
+                        respD = md.getDouble("Digite o novo salario: ", null, 0.0);
+                        if(respD == 0.0) return;
+                            sellers.get(i).setSalary(respD);
                         break;
                     
                     case 2:
-                        sellers.get(i).setPassword(md.getString("Digite a nova senha: ", null));
+                        aux = md.getString("Digite a nova senha: ", null, "0");
+                        if(aux.equals("0")) return;
+                        sellers.get(i).setPassword(aux);
                         break;
 
                     case 3:
-                        sellers.get(i).setRemainingTrainingTime(md.getDouble("Digite um novo tempo de experiencia restante: ", null));
+                        respD = md.getDouble("Digite um novo tempo de experiencia restante: ", null, -1);
+                        if(respD == -1) return;
+                            sellers.get(i).setRemainingTrainingTime(respD);
                         break;
                     
                     case 4:
@@ -1035,7 +1145,8 @@ public class App {
         switch(op){
             
             case 0:
-                rg = md.getString("Digite o RG do Gerente: ", null);
+                rg = md.getString("Digite o RG do Gerente: ", null, "0");
+                if(rg.equals("0")) return;
 
                 for(int i=0; i<managers.size(); i++){
                     if(managers.get(i).getRg().equals(rg)){
@@ -1046,7 +1157,8 @@ public class App {
                 return;
                 
                 case 1:
-                rg = md.getString("Digite o RG do Vendedor: ", null);
+                rg = md.getString("Digite o RG do Vendedor: ", null, "0");
+                if(rg.equals("0")) return;
 
                 for(int i=0; i<sellers.size(); i++){
                     if(sellers.get(i).getRg().equals(rg)){
