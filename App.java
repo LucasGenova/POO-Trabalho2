@@ -446,6 +446,9 @@ public class App {
                                 if(typeC[i]>higherC) {
                                     higherC = typeC[i];
                                 }
+                            }
+
+                            for(i=0;i<4;i++) {
                                 if(typeM[i]>higherM) {
                                     higherM = typeM[i];
                                 }
@@ -471,7 +474,7 @@ public class App {
                                 }
                             }
 
-                            System.out.println("\n");
+                            md.panik("\n");
                         }
                     }
             }
@@ -662,7 +665,11 @@ public class App {
             m.setType(motorcycleTypes[md.optionMenu("Escolha o tipo do veiculo: ", "", motorcycleTypes)]);
             v = m;
         }
-        
+
+        System.out.println("\nDigite o numero do chassi do veiculo: ");
+        aux = md.getString("Digite o numero do chassi do veiculo: ", null, "0");
+        if(aux.equals("0")) return;
+            v.setChassiNumber(aux);
         
         System.out.println("\nDigite a marca do veiculo: ");
         aux = md.getString("Digite a marca do veiculo: ", null, "0");
@@ -773,6 +780,7 @@ public class App {
         }
 
         vehicles.remove(i);
+        md.panik("Veiculo removido com sucesso!");
     }
     
     public static void addClient(){
@@ -909,12 +917,13 @@ public class App {
                 break;
             }
             else if(i==(clients.size()-1)) {
-                System.out.println("\nVeiculo nao encontrado");
+                System.out.println("\nCliente nao encontrado");
                 return;
             }
         }
 
         clients.remove(i);
+        md.panik("Cliente removido com sucesso!");
     }
 
     public static void addEmployee(){
@@ -1151,6 +1160,7 @@ public class App {
                 for(int i=0; i<managers.size(); i++){
                     if(managers.get(i).getRg().equals(rg)){
                         managers.remove(i);
+                        md.panik("Gerente removido com sucesso!");
                         break;
                     }
                 }
@@ -1163,6 +1173,7 @@ public class App {
                 for(int i=0; i<sellers.size(); i++){
                     if(sellers.get(i).getRg().equals(rg)){
                         sellers.remove(i);
+                        md.panik("Vendedor removido com sucesso!");
                         break;
                     }
                 }

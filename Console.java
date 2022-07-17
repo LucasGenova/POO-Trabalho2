@@ -95,7 +95,7 @@ public class Console implements IOMedium {
 
     public <T> void displayList(ArrayList<T> list){
         for(T member : list)
-            System.out.println(member.toString());
+            System.out.println(member.toString() + "\n");
         
         display(null);
     }
