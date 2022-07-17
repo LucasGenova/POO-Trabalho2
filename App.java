@@ -242,6 +242,9 @@ public class App {
         }
     }
     public static boolean verifyCredentials(String [] credentials){
+        if(managers.size() == 0 && sellers.size() == 0)
+            return true;
+            
         for(Manager manager : managers){
             if(manager.getName().equals(credentials[0]) && manager.getPassword().equals(credentials[1])){
                 //logged sucessfully
