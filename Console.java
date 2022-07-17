@@ -109,7 +109,7 @@ public class Console implements IOMedium {
         while(true)
             try {
                 clearConsole();
-                header();
+                header(); 
                 System.out.println(title + "(Digite " + exitValue + " para sair)" + "\n");
                 ans=sc.nextInt();
                 sc.nextLine();
@@ -169,18 +169,24 @@ public class Console implements IOMedium {
         return ans;
     }
 
-    public Date getDate(String title, String error){
+    public Date getDate(String title, String error, String exitString){
         Date d;
+        String input;
 
         if(error == null)
             error = "Digite uma data valida!";
 
-        while(true)
+        while(true) 
             try {
                 clearConsole();
                 header();
-                System.out.println(title);
-                d = new Date(sc.nextLine());
+                System.out.println(title+ "(Digite " + exitString + " para sair)" + "\n");
+
+                input = sc.nextLine();
+                
+                if(input.equals(exitString))
+                    return null;
+                d = new Date();
 
                 if(d.isValid())
                     break;
@@ -191,5 +197,34 @@ public class Console implements IOMedium {
             }
 
         return d;
+    }
+
+    public Time getTime(String title, String error, String exitString){
+        Time t;
+        String input;
+
+        if(error == null)
+            error = "Digite uma hora valida!";
+
+        while(true)
+            try {
+                clearConsole();
+                header();
+                System.out.println(title+ "(Digite " + exitString + " para sair)" + "\n");
+
+                input = sc.nextLine();
+                if(input.equals(exitString))
+                    return null;
+                t = new Time();
+
+                if(t.isValid())
+                    break;
+                else
+                    panik("Formato de hora invalido! Digite uma hora valida");
+            } catch (Exception e) {
+                panik(error);
+            }
+
+        return t;
     }
 }

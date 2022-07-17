@@ -28,12 +28,8 @@ public class Time {
         this.min = min;
     }
 
-    public static boolean validateHour(int hour){
-        return (hour >= 0) && (hour <= 23);
-    }
-
-    public static boolean validateMin(int hour){
-        return (hour >= 0) && (hour <= 23);
+    public boolean isValid(){
+        return ((this.hour>=0 && this.hour<=23) && (this.min>=0 && this.min<=59));
     }
 
     public String toString(){
